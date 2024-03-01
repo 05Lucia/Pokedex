@@ -7,18 +7,18 @@
 
 *::-webkit-scrollbar {
     width: 16px;
-  }
+}
 
-  *::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     background: #a0a0a0;
-  }
+}
 
-  *::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background-color: #FFD302;
     border: 3px solid #547BAF;
     border-radius: 10px;
     background-clip: padding-box;
-  }
+}
 
 body {
     height: 100%;
@@ -53,9 +53,9 @@ input {
     width: 230px;
     height: 28px;
     border-radius: 12px;
-    border:  3px solid #547BAF;
+    border: 3px solid #547BAF;
     text-indent: 10px;
-    
+
 }
 
 
@@ -83,14 +83,14 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items:center;
+    align-items: center;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 20px;
     overflow: hidden;
 }
 
 .pokeCard:hover {
-   cursor: pointer;
+    cursor: pointer;
 }
 
 
@@ -124,7 +124,7 @@ main {
     border-radius: 10px;
     padding: 3px 10px;
     text-transform: capitalize;
-    width:fit-content ;
+    width: fit-content;
 }
 
 .pokeCard img {
@@ -133,7 +133,7 @@ main {
     object-fit: cover;
     object-position: center;
     z-index: 2;
-    
+
 }
 
 .pokeCard img:hover {
@@ -142,10 +142,10 @@ main {
     object-fit: cover;
     object-position: center;
     z-index: 2;
-    
+
 }
 
-.bottom-box{
+.bottom-box {
     height: 80px;
     width: 100%;
     background-color: white;
@@ -160,7 +160,7 @@ button {
     width: 200px;
     height: 40px;
     border-radius: 20px;
-    border:  3px solid #547BAF;
+    border: 3px solid #547BAF;
     background-color: #FFD302;
     color: #547BAF;
     font-size: 16px;
@@ -189,9 +189,10 @@ a {
     background-color: white;
     border-radius: 20px;
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .info-card h2 {
@@ -200,5 +201,18 @@ a {
 
 .info-card img {
     width: 240px;
-    height:auto;
+    height: auto;
+    z-index: 1;
+    margin-top: -170px;
+}
+
+.info-card-top {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding-bottom: 170px;
 }
