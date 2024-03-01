@@ -1,22 +1,22 @@
 let TypeColors = [
-    { type: "normal", color: "#A8A8A8" },
-    { type: "fire", color: "#FF8C00" },
-    { type: "water", color: "#0070FF" },
-    { type: "electric", color: "#FFD700" },
-    { type: "grass", color: "#7ACC00" },
-    { type: "ice", color: "#97D9D9" },
-    { type: "fighting", color: "#C02942" },
-    { type: "poison", color: "#A040A0" },
-    { type: "ground", color: "#AB9879" },
-    { type: "flying", color: "#94d9ed" },
-    { type: "psychic", color: "#F85888" },
-    { type: "bug", color: "#A7B723" },
-    { type: "rock", color: "#a38c21" },
-    { type: "ghost", color: "#70689F" },
-    { type: "dragon", color: "#6F35FC" },
-    { type: "dark", color: "#70574A" },
-    { type: "steel", color: "#B7B7CE" },
-    { type: "fairy", color: "#FFAE9A" },
+  { type: "normal", color: "#BEBEBE", backgroundColor: "#e6e6e6" }, // Based on light beige
+  { type: "fire", color: "#FF7F5E", backgroundColor: "#ffc3b3" }, // Lighter orange
+  { type: "water", color: "#63B3FF", backgroundColor: "#b3ceff" }, // Lighter blue
+  { type: "electric", color: "#FFD700", backgroundColor: "#ffebd3" }, // Remains as original
+  { type: "grass", color: "#77C763", backgroundColor: "#c3e3b3" }, // Lighter green
+  { type: "ice", color: "#97D9D9", backgroundColor: "#d3e3e3" }, // Remains as original
+  { type: "fighting", color: "#C74040", backgroundColor: "#e3b3b3" }, // Lighter red
+  { type: "poison", color: "#A065FC", backgroundColor: "#d3b3d3" }, // Lighter purple
+  { type: "ground", color: "#C2A18C", backgroundColor: "#d3c3b3" }, // Lighter brown
+  { type: "flying", color: "#87CEEB", backgroundColor: "#c3e3ef" }, // Lighter sky blue
+  { type: "psychic", color: "#F48FB3", backgroundColor: "#ffe3e3" }, // Lighter pink
+  { type: "bug", color: "#B0C04E", backgroundColor: "#d3e3b3" }, // Lighter green
+  { type: "rock", color: "#8C8B8A", backgroundColor: "#c3b3b3" }, // Lighter gray
+  { type: "ghost", color: "#8080BE", backgroundColor: "#c3c3d3" }, // Lighter purple
+  { type: "dragon", color: "#5C41C9", backgroundColor: "#c3b3ef" }, // Lighter blue
+  { type: "dark", color: "#6B5451", backgroundColor: "#c3b3b3" }, // Lighter gray
+  { type: "steel", color: "#B7B7B7", backgroundColor: "#d3d3d3" }, // Remains as original
+  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3" }, // Lighter pink
 ];
 
 const START_POKEMON = 0;
@@ -26,70 +26,101 @@ let currentStartPokemon = START_POKEMON; // Track current starting index
 let currentEndPokemon = END_POKEMON; // Track current ending index
 
 
-
+let response
 let currentPokemon;
 
 async function init() {
-    const container = document.getElementById('pokeCardContanier');
-    container.innerHTML = '';
-    await lodePokemon()
-    await renderPokemonInfo();
+  const container = document.getElementById('pokeCardContanier');
+  container.innerHTML = '';
+  await lodePokemon()
+  await renderPokemonCard();
 }
 
 async function lodePokemon() {
-    for (let i = START_POKEMON; i < END_POKEMON; i++) {
-        const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`
-        const response = await fetch(url);
-        currentPokemon = await response.json();
-        renderPokemonInfo();
-    }
+  for (let i = START_POKEMON; i < END_POKEMON; i++) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`
+    const response = await fetch(url);
+    currentPokemon = await response.json();
+    renderPokemonCard();
+  }
 }
 
-function renderPokemonInfo() {
-    const currentPokemonImg = currentPokemon['sprites']['other']['official-artwork']['front_default'];
-    const container = document.getElementById('pokeCardContanier');
+function renderPokemonCard() {
+  const currentPokemonImg = currentPokemon['sprites']['other']['official-artwork']['front_default'];
+  const container = document.getElementById('pokeCardContanier');
 
-    const firstType = currentPokemon['types'][0]; // Get the first type
-    const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
+  const firstType = currentPokemon['types'][0]; // Get the first type
+  const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
+  const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
-    const types = currentPokemon['types'].map(type => {
-        const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
-        return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
-    }).join('');
+  const types = currentPokemon['types'].map(type => {
+    const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
+    return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
+  }).join('');
 
-    container.innerHTML += `
-      <div class="pokeCard" style="background-color: ${typeColor}">
-        <div class="top-card">
-          <h3>${currentPokemon.name}</h3>
-          <div>#${currentPokemon.id.toString().padStart(4, '0')}</div>
-        </div>
-        <div class="types">${types}</div>
-        <img src="${currentPokemonImg}" alt="">
-        <div class="bottom-box"></div>
+  container.innerHTML += `
+    <div class="pokeCard" id="pokeCard-${currentPokemon.id}" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor});">
+      <div class="top-card">
+        <h3>${currentPokemon.name}</h3>
+        <div>#${currentPokemon.id.toString().padStart(4, '0')}</div>
       </div>
+      <div class="types">${types}</div>
+      <img src="${currentPokemonImg}" alt="">
+      <div class="bottom-box"></div>
+    </div>
+  `;
+  addCardClick()
+}
+
+
+function addCardClick() {
+  const container = document.getElementById('pokeCardContanier');
+  const pokeCards = container.querySelectorAll('.pokeCard');
+
+  pokeCards.forEach(pokeCard => {
+    pokeCard.addEventListener('click', function () {
+      const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
+     
+      renderPokemonInfo( cardId); // Pass card ID as argument
+    });
+  });
+}
+
+async function renderPokemonInfo(cardId) {
+  const content = document.getElementById('info-card');
+
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${cardId}`);
+  const clickedPokemon = await response.json();
+  // Build HTML content based on clickedPokemon information
+  content.innerHTML = `
+  <div class="top-card">
+    <h2>${clickedPokemon.name}</h2>
+    <p>ID: #${clickedPokemon.id.toString().padStart(4, '0')}</p>
+  </div>
+    <img src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
     `;
 }
 
-// function that lets you load 15 more Pokemon!
 async function loadMorePokemon() {
-    currentStartPokemon += 15;
-    currentEndPokemon += 15;
-  
-    // Check for more Pokemon
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + (END_POKEMON + 1));
-    if (!response.ok) {
-      console.warn("No more Pokemon to load.");
-      return;
-    }
-  
-    // Render the new Pokemon (using a loop outside the function)
-    for (let i = currentStartPokemon; i < currentEndPokemon; i++) {
-      const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
-      const response = await fetch(url);
-      currentPokemon = await response.json();
-      const pokemonHTML = renderPokemonInfo(currentPokemon); // Call renderPokemonInfo with the Pokemon data
-    }
-  
-    // Return a promise to indicate completion (optional)
-    return new Promise((resolve) => resolve());
+  currentStartPokemon += 15;
+  currentEndPokemon += 15;
+
+  // Check for more Pokemon
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + (END_POKEMON + 1));
+  if (!response.ok) {
+    console.warn("No more Pokemon to load.");
+    return;
   }
+
+  // Render the new Pokemon (using a loop outside the function)
+  for (let i = currentStartPokemon; i < currentEndPokemon; i++) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
+    const response = await fetch(url);
+    currentPokemon = await response.json();
+    const pokemonHTML = renderPokemonCard(currentPokemon); // Call renderPokemonInfo with the Pokemon data
+  }
+}
+
+
+
+

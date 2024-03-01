@@ -31,7 +31,7 @@ body {
     background-image: url(./img/pokeball-transperent.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
+    background-size: 40%;
     background-attachment: fixed;
 }
 
@@ -86,14 +86,20 @@ main {
     align-items:center;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 20px;
+    overflow: hidden;
 }
+
+.pokeCard:hover {
+   cursor: pointer;
+}
+
 
 .top-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 80%;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
 }
 
 .pokeCard h3 {
@@ -175,4 +181,24 @@ footer {
 
 a {
     color: black;
+}
+
+.info-card {
+    height: 70vh;
+    width: 90vw;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.info-card h2 {
+    text-transform: capitalize;
+}
+
+.info-card img {
+    width: 240px;
+    height:auto;
 }
