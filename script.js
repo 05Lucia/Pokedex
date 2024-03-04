@@ -72,7 +72,6 @@ function renderPokemonCard() {
   addCardClick()
 }
 
-
 function addCardClick() {
   const container = document.getElementById('pokeCardContanier');
   const pokeCards = container.querySelectorAll('.pokeCard');
@@ -80,61 +79,114 @@ function addCardClick() {
   pokeCards.forEach(pokeCard => {
     pokeCard.addEventListener('click', function () {
       const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
-     
       renderPokemonInfo( cardId); // Pass card ID as argument
     });
   });
 }
 
+function addCardScroll() {
+ // Add event listener for scroll event
+const scrollElement = window.document.scrollingElement || window; // Determine appropriate scrolling element
+scrollElement.addEventListener("scroll", () => {
+  const { scrollTop, scrollHeight, clientHeight } = scrollElement;
+
+  // Check if near bottom and all Pokemon are not loaded
+  if (scrollTop + clientHeight >= scrollHeight - BUFFER_DISTANCE && currentEndPokemon < ALL_POKEMON_COUNT) {
+    loadMorePokemon();
+  }
+});
+}
+
 async function renderPokemonInfo(cardId) {
   const content = document.getElementById('info-card');
+  content.innerHTML = `
+  <div id="top-Section"></div>
+  <div id="Info-Section"></div>
+  `;
 
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${cardId}`);
   const clickedPokemon = await response.json();
   // Build HTML content based on clickedPokemon information
 
-  const firstType = clickedPokemon['types'][0]; // Get the first type
-  const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
-  const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
-
-  const types = clickedPokemon['types'].map(type => {
-  const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
-  return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
-  }).join('');
-
-  content.innerHTML = `
-  <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor});">
-    <div class="top-card">
-      <h2>${clickedPokemon.name}</h2>
-      <p>ID: #${clickedPokemon.id.toString().padStart(4, '0')}</p>
-    </div>
-    <div class="types">${types}</div>
-    </div>
-      <img src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
-  
-    `;
+  topInfoCard(clickedPokemon);
+  InfoCardButton(clickedPokemon)
+  infoSection(clickedPokemon);
 }
 
-async function loadMorePokemon() {
-  currentStartPokemon += 15;
-  currentEndPokemon += 15;
+function InfoCardButton(clickedPokemon) {
+  let content = document.getElementById('top-Section');
+  content.innerHTML += `
+  <div class="info-btn">
+  <button onclick="infoSection(${clickedPokemon})">Info</button>
+  <button onclick="">Evolution</button>
+  <button onclick="">Stats</button>
+  <button onclick="">Moves</button>
+  </div>
+  `;
+}
 
-  // Check for more Pokemon
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + (END_POKEMON + 1));
-  if (!response.ok) {
-    console.warn("No more Pokemon to load.");
+async function infoSection(clickedPokemon) {
+  let content = document.getElementById('Info-Section');
+
+  let abilitiesHTML = "";
+  for (const ability of clickedPokemon.abilities) {
+    abilitiesHTML += `<div>${ability.ability.name} </div>`; // Extract and display ability name
+  }
+
+ const url = clickedPokemon.species.url;
+ const species = await fetch (url);
+ const speciesJson = await species.json();
+
+  content.innerHTML += `
+  <div class="Info-section">
+  <h3>Infos</h3>
+  <div class="general-Info">
+    <div><b>Weight:</b> ${(clickedPokemon.weight/10).toFixed(1)} kg</div>
+    <div><b>Height:</b> ${(clickedPokemon.height/10).toFixed(1)} m</div>
+    <div class="abilities"> <b>Abilities:</b> ${abilitiesHTML} </div>
+    <div><b>Weakness:</b> </div>
+    <div><b>flavor text:</b> <br> ${speciesJson['flavor_text_entries']['10']['flavor_text']} </div>
+  </div>
+  <br>
+  <h3>Effectiveness of Types</h3>
+  </div>
+  `;
+}
+
+
+
+const ALL_POKEMON_COUNT = 1025;
+const BUFFER_DISTANCE = 10;
+
+async function loadMorePokemon() {
+  // Check if all Pokemon are loaded
+  if (currentEndPokemon >= ALL_POKEMON_COUNT) {
+    console.warn("All Pokemon have been loaded.");
     return;
   }
 
-  // Render the new Pokemon (using a loop outside the function)
+  // Increase the starting and ending indices for loading
+  currentStartPokemon += 15;
+  currentEndPokemon = Math.min(currentEndPokemon + 50, ALL_POKEMON_COUNT); // Prevent exceeding total count
+
   for (let i = currentStartPokemon; i < currentEndPokemon; i++) {
     const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     const response = await fetch(url);
     currentPokemon = await response.json();
-    const pokemonHTML = renderPokemonCard(currentPokemon); // Call renderPokemonInfo with the Pokemon data
+    renderPokemonCard(); 
   }
+  addCardScroll()
 }
 
 
+// // Add event listener for scroll event
+// const scrollElement = document.document.scrollingElement || window;
+// scrollElement.addEventListener("scroll", () => {
+//   const { scrollTop, scrollHeight, clientHeight } = scrollElement;
 
+//   // Check if near bottom and all Pokemon are not loaded
+//   if (scrollTop + clientHeight >= scrollHeight - BUFFER_DISTANCE && currentEndPokemon < ALL_POKEMON_COUNT) {
+//     loadMorePokemon();
+//   }
+// });
 
