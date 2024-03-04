@@ -1,22 +1,22 @@
 let TypeColors = [
-  { type: "normal", color: "#BEBEBE", backgroundColor: "#e6e6e6" }, // Based on light beige
-  { type: "fire", color: "#FF7F5E", backgroundColor: "#ffc3b3" }, // Lighter orange
-  { type: "water", color: "#63B3FF", backgroundColor: "#b3ceff" }, // Lighter blue
-  { type: "electric", color: "#FFD700", backgroundColor: "#ffebd3" }, // Remains as original
-  { type: "grass", color: "#77C763", backgroundColor: "#c3e3b3" }, // Lighter green
-  { type: "ice", color: "#97D9D9", backgroundColor: "#d3e3e3" }, // Remains as original
-  { type: "fighting", color: "#C74040", backgroundColor: "#e3b3b3" }, // Lighter red
-  { type: "poison", color: "#A065FC", backgroundColor: "#d3b3d3" }, // Lighter purple
-  { type: "ground", color: "#C2A18C", backgroundColor: "#d3c3b3" }, // Lighter brown
-  { type: "flying", color: "#87CEEB", backgroundColor: "#c3e3ef" }, // Lighter sky blue
-  { type: "psychic", color: "#F48FB3", backgroundColor: "#ffe3e3" }, // Lighter pink
-  { type: "bug", color: "#B0C04E", backgroundColor: "#d3e3b3" }, // Lighter green
-  { type: "rock", color: "#8C8B8A", backgroundColor: "#c3b3b3" }, // Lighter gray
-  { type: "ghost", color: "#8080BE", backgroundColor: "#c3c3d3" }, // Lighter purple
-  { type: "dragon", color: "#5C41C9", backgroundColor: "#c3b3ef" }, // Lighter blue
-  { type: "dark", color: "#6B5451", backgroundColor: "#c3b3b3" }, // Lighter gray
-  { type: "steel", color: "#B7B7B7", backgroundColor: "#d3d3d3" }, // Remains as original
-  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3" }, // Lighter pink
+  { type: "normal", color: "#BEBEBE", backgroundColor: "#e6e6e6" },
+  { type: "fire", color: "#FF7F5E", backgroundColor: "#fae1d8" }, 
+  { type: "water", color: "#63B3FF", backgroundColor: "#e2effa" }, 
+  { type: "electric", color: "#FFD700", backgroundColor: "#fff9da" },
+  { type: "grass", color: "#77C763", backgroundColor: "#eafdeb" },
+  { type: "ice", color: "#97D9D9", backgroundColor: "#e9fcfc" },
+  { type: "fighting", color: "#C74040", backgroundColor: "#f8d2d2" }, 
+  { type: "poison", color: "#A065FC", backgroundColor: "#e9ddfd" }, 
+  { type: "ground", color: "#C2A18C", backgroundColor: "#ffefe6" }, 
+  { type: "flying", color: "#87CEEB", backgroundColor: "#e7f7fd" }, 
+  { type: "psychic", color: "#F48FB3", backgroundColor: "#ffe3e3" }, 
+  { type: "bug", color: "#B0C04E", backgroundColor: "#f4f8da" },
+  { type: "rock", color: "#8C8B8A", backgroundColor: "#d6d6d6" }, 
+  { type: "ghost", color: "#8080BE", backgroundColor: "#d7d7fb" }, 
+  { type: "dragon", color: "#5C41C9", backgroundColor: "#d3c9fb" }, 
+  { type: "dark", color: "#6B5451", backgroundColor: "#bfb5b4" }, 
+  { type: "steel", color: "#B7B7B7", backgroundColor: "#e2e5e7" },
+  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3" },
 ];
 
 const START_POKEMON = 0;

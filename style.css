@@ -23,7 +23,7 @@
 body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
-    background: radial-gradient(#ffffff 20%, #5f5f5f);
+    background: radial-gradient(#5f5f5f 10%, #ffff);
 }
 
 .backgroundImg {
