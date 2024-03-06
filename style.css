@@ -183,7 +183,7 @@ a {
 }
 
 .info-card {
-    height: 70vh;
+    height: 80vh;
     width: 90vw;
     background-color: white;
     border-radius: 20px;
@@ -258,9 +258,9 @@ a {
 #Info-Section {
     width: 95%;
     overflow: scroll;
-    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-x: hidden;
+    /* Hide horizontal scrollbar */
     display: flex;
-    
     flex-direction: column;
     flex-wrap: wrap;
     color: #414141;
@@ -268,20 +268,56 @@ a {
 
 #Info-Section::-webkit-scrollbar {
     display: none !important;
-  }
+}
 
-  .abilities {
+.abilities {
     display: flex;
     gap: 10px;
-  }
+}
 
-  .general-Info {
+.general-Info {
     width: 100%;
-  }
 
-  .Info-section {
+}
+
+.text-big {
+    text-transform: capitalize;
+}
+
+.info-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
+}
+
+.flavor {
+    text-align: center;
+}
+
+.infoPokemonImg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoPokemonImg img {
+ width: 150px;
+ height: auto;
+ margin-top: 0;
+}
+
+/* .type-damage table {
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.type-damage table>tr {
+    vertical-align: middle;
+}
+
+/* dont know jet 
+.text-right {
+    text-align: right !important;
+} */

@@ -1,26 +1,26 @@
 let TypeColors = [
-  { type: "normal", color: "#BEBEBE", backgroundColor: "#e6e6e6" },
-  { type: "fire", color: "#FF7F5E", backgroundColor: "#fae1d8" }, 
-  { type: "water", color: "#63B3FF", backgroundColor: "#e2effa" }, 
-  { type: "electric", color: "#FFD700", backgroundColor: "#fff9da" },
-  { type: "grass", color: "#77C763", backgroundColor: "#eafdeb" },
-  { type: "ice", color: "#97D9D9", backgroundColor: "#e9fcfc" },
-  { type: "fighting", color: "#C74040", backgroundColor: "#f8d2d2" }, 
-  { type: "poison", color: "#A065FC", backgroundColor: "#e9ddfd" }, 
-  { type: "ground", color: "#C2A18C", backgroundColor: "#ffefe6" }, 
-  { type: "flying", color: "#87CEEB", backgroundColor: "#e7f7fd" }, 
-  { type: "psychic", color: "#F48FB3", backgroundColor: "#ffe3e3" }, 
-  { type: "bug", color: "#B0C04E", backgroundColor: "#f4f8da" },
-  { type: "rock", color: "#8C8B8A", backgroundColor: "#d6d6d6" }, 
-  { type: "ghost", color: "#8080BE", backgroundColor: "#d7d7fb" }, 
-  { type: "dragon", color: "#5C41C9", backgroundColor: "#d3c9fb" }, 
-  { type: "dark", color: "#6B5451", backgroundColor: "#bfb5b4" }, 
-  { type: "steel", color: "#B7B7B7", backgroundColor: "#e2e5e7" },
-  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3" },
+  { type: "normal", color: "#BEBEBE", backgroundColor: "#e6e6e6", icon: "./img/normal.png" },
+  { type: "fire", color: "#FF7F5E", backgroundColor: "#fae1d8", icon: "./img/fire.png" },
+  { type: "water", color: "#63B3FF", backgroundColor: "#e2effa", icon: "./img/water.png" },
+  { type: "electric", color: "#FFD700", backgroundColor: "#fff9da", icon: "./img/electric.png" },
+  { type: "grass", color: "#77C763", backgroundColor: "#eafdeb", icon: "./img/grass.png" },
+  { type: "ice", color: "#97D9D9", backgroundColor: "#e9fcfc", icon: "./img/ice.png" },
+  { type: "fighting", color: "#C74040", backgroundColor: "#f8d2d2", icon: "./img/fighting.png" },
+  { type: "poison", color: "#A065FC", backgroundColor: "#e9ddfd", icon: "./img/poison.png" },
+  { type: "ground", color: "#C2A18C", backgroundColor: "#ffefe6", icon: "./img/ground.png" },
+  { type: "flying", color: "#87CEEB", backgroundColor: "#e7f7fd", icon: "./img/flying.png" },
+  { type: "psychic", color: "#F48FB3", backgroundColor: "#ffe3e3", icon: "./img/psychic.png" },
+  { type: "bug", color: "#B0C04E", backgroundColor: "#f4f8da", icon: "./img/bug.png" },
+  { type: "rock", color: "#8C8B8A", backgroundColor: "#d6d6d6", icon: "./img/rock.png" },
+  { type: "ghost", color: "#8080BE", backgroundColor: "#d7d7fb", icon: "./img/ghost.png" },
+  { type: "dragon", color: "#5C41C9", backgroundColor: "#d3c9fb", icon: "./img/dragon.png" },
+  { type: "dark", color: "#6B5451", backgroundColor: "#bfb5b4", icon: "./img/dark.png" },
+  { type: "steel", color: "#B7B7B7", backgroundColor: "#e2e5e7", icon: "./img/steel.png" },
+  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3", icon: "./img/fairy.png" },
 ];
 
 const START_POKEMON = 0;
-const END_POKEMON = 15;
+const END_POKEMON = 40;
 
 let currentStartPokemon = START_POKEMON; // Track current starting index
 let currentEndPokemon = END_POKEMON; // Track current ending index
@@ -79,22 +79,9 @@ function addCardClick() {
   pokeCards.forEach(pokeCard => {
     pokeCard.addEventListener('click', function () {
       const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
-      renderPokemonInfo( cardId); // Pass card ID as argument
+      renderPokemonInfo(cardId); // Pass card ID as argument
     });
   });
-}
-
-function addCardScroll() {
- // Add event listener for scroll event
-const scrollElement = window.document.scrollingElement || window; // Determine appropriate scrolling element
-scrollElement.addEventListener("scroll", () => {
-  const { scrollTop, scrollHeight, clientHeight } = scrollElement;
-
-  // Check if near bottom and all Pokemon are not loaded
-  if (scrollTop + clientHeight >= scrollHeight - BUFFER_DISTANCE && currentEndPokemon < ALL_POKEMON_COUNT) {
-    loadMorePokemon();
-  }
-});
 }
 
 async function renderPokemonInfo(cardId) {
@@ -110,51 +97,232 @@ async function renderPokemonInfo(cardId) {
 
   topInfoCard(clickedPokemon);
   InfoCardButton(clickedPokemon)
-  infoSection(clickedPokemon);
+  infoSectionGenral(clickedPokemon);
 }
 
 function InfoCardButton(clickedPokemon) {
   let content = document.getElementById('top-Section');
-  content.innerHTML += `
-  <div class="info-btn">
-  <button onclick="infoSection(${clickedPokemon})">Info</button>
-  <button onclick="">Evolution</button>
-  <button onclick="">Stats</button>
-  <button onclick="">Moves</button>
-  </div>
-  `;
+
+  // Create the button container element
+  const buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('info-btn');
+
+  // Define function references for event listeners
+  const infoClick = () => infoSectionGenral(clickedPokemon);
+  const evolutionClick = () => evolutinInfo(clickedPokemon);
+  const statsClick = () => stautsInfo(clickedPokemon);
+  const movesClick = () => movesInfo(clickedPokemon);
+
+  // Create and add buttons with event listeners
+  const infoButton = document.createElement('button');
+  infoButton.textContent = 'Info';
+  infoButton.addEventListener('click', infoClick);
+  buttonContainer.appendChild(infoButton);
+
+  const evolutionButton = document.createElement('button');
+  evolutionButton.textContent = 'Evolution';
+  evolutionButton.addEventListener('click', evolutionClick);
+  buttonContainer.appendChild(evolutionButton);
+
+  const statsButton = document.createElement('button');
+  statsButton.textContent = 'Stats';
+  statsButton.addEventListener('click', statsClick);
+  buttonContainer.appendChild(statsButton);
+
+  const movesButton = document.createElement('button');
+  movesButton.textContent = 'Moves';
+  movesButton.addEventListener('click', movesClick);
+  buttonContainer.appendChild(movesButton);
+
+  // Append the button container to the content section
+  content.appendChild(buttonContainer);
 }
 
-async function infoSection(clickedPokemon) {
+let speciesJson;
+
+async function infoSectionGenral(clickedPokemon) {
   let content = document.getElementById('Info-Section');
+  content.innerHTML = '';
 
   let abilitiesHTML = "";
   for (const ability of clickedPokemon.abilities) {
     abilitiesHTML += `<div>${ability.ability.name} </div>`; // Extract and display ability name
   }
 
- const url = clickedPokemon.species.url;
- const species = await fetch (url);
- const speciesJson = await species.json();
+  const url = clickedPokemon.species.url;
+  const species = await fetch(url);
+  speciesJson = await species.json();
+
+  const shinyPokemonImg = clickedPokemon['sprites']['other']['official-artwork']['front_shiny'];
+
+  content.innerHTML += `
+  <div class="info-section" id="info-content">
+  <h3>Infos</h3>
+  <br>
+  <div class="flavor text-big"><b>flavor text:</b> <br> ${speciesJson['flavor_text_entries']['10']['flavor_text']}</div>
+  <br>
+  <div class="general-Info">
+  <div class="text-big"> <b>Habitat</b> ${speciesJson.habitat.name} </div>
+    <div  ><b>Weight:</b> ${(clickedPokemon.weight / 10).toFixed(1)} kg</div>
+    <div><b>Height:</b> ${(clickedPokemon.height / 10).toFixed(1)} m</div>
+    <div class="abilities text-big"> <b>Abilities:</b> ${abilitiesHTML} </div>
+    <div class="text-big"> <b>Growth rate:</b> ${speciesJson.growth_rate.name} </div>
+  </div>
+  <br>
+  <div class="infoPokemonImg">
+  <b>Shiny version:</b>
+  <img  src="${shinyPokemonImg}" alt="">
+  </div>
+  <br>
+  </div>
+  `;
+  // infoSectionTypes(clickedPokemon);
+}
+
+async function evolutinInfo(clickedPokemon) {
+  let content = document.getElementById('Info-Section');
+  content.innerHTML = '';
+
+  const url = speciesJson.evolution_chain.url;
+  const evolution = await fetch(url);
+  const evolutionJson = await evolution.json();
+
+  const evolvesTo = evolutionJson['chain']['evolves_to'];
+
+  if (evolvesTo.length === 0) {
+    content.innerHTML += `
+  <div class="info-section">
+  <br>
+  <h3>This Pokémon has no further evolutions.</h3>
+  </div>`;
+
+  } if (evolvesTo.length === 1) {
+    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
+    const baseEvolution = await response0.json();
+    const imgEvolution0 = baseEvolution['sprites']['other']['official-artwork']['front_default'];
+
+    const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['species']['name']}`);
+    const firstEvolution = await response1.json();
+    const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
+
+    content.innerHTML += `
+    <div class="info-section" id="info-content">
+      <div class="infoPokemonImg text-big">
+        <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
+        <img  src="${imgEvolution0}" alt="${evolutionJson['chain']['species']['name']}">
+      </div>
+      <br>
+      <b>Evolves To:</b>
+      <br>
+      <div class="infoPokemonImg text-big">
+        <div><b>${evolvesTo['0']['species']['name']}</b></div>
+        <img  src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
+      </div>
+      <br>
+    </div>
+    `;
+    if (evolvesTo['0']['evolves_to'].length !== 0) {
+      let content = document.getElementById('info-content');
+
+      const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['0']['species']['name']}`);
+      const secondEvolution = await response2.json();
+      const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+
+      content.innerHTML += `
+      <div class="infoPokemonImg text-big">
+        <b>Evolves To:</b>
+        <br>
+        <div><b>${evolvesTo['0']['evolves_to']['0']['species']['name']}</b></div>
+        <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['0']['species']['name']}">
+      </div>
+      `;
+
+    }
+  } else {
+
+  }
+
+  // if (evolutionJson['evolves_to']['0']['species'] === true) {
+
+  //   let evolutionHTML = "";
+  //   for (const chain of evolutionJson.evolves_to) {
+  //     evolutionHTML += `
+  //   <div>${chain['0']['species']['name']} </div>
+  //   <img  src="${chain['0']['species']['url']}" alt="">
+  //   `; // Extract and display ability name
+  //   }
+  // }
+
+
+
+
+}
+
+// Function to determine the number of Pokemon types
+function getNumPokemonTypes(types) {
+  return types.length; // length of types array gives the number of types
+}
+
+function findTypeIconUrl(typeData) {
+  return TypeColors.find(typeObject => typeObject.type === typeData)?.icon;
+}
+
+// funktion has to be reviesed!! ---> Start from sratch!! -------------------------------------------------
+async function infoSectionTypes(clickedPokemon) {
+  let content = document.getElementById('info-content');
+
+  let types = clickedPokemon.types;
+  const numTypes = getNumPokemonTypes(types);
+
+  // if (numTypes === 1) {
+  //   let response = await fetch ( clickedPokemon['types']['0']['type']['url']); 
+  //   let type01 = await response.json();
+
+  //   const multipliers = [0.25, 0.5, 2, 4];
+
+  //   let damageFromHtml = "";
+  //   let damageToHtml = "";
+  //   for (const multiplier of multipliers) {
+  //     const iconUrl = findTypeIconUrl(typeData.name); // Assuming a function to find icon URL
+  //     damageFromHtml += `<tr><td>${multiplier}x</td><td><img src="${iconUrl}" alt="${typeData.name} type icon"></td></tr>`;
+  //     damageToHtml += `<tr><td>${multiplier}x</td><td><img src="${iconUrl}" alt="${typeData.name} type icon"></td></tr>`;
+  //   }
+
+  //   content.querySelector('.type-damage table:first-child').innerHTML = damageFromHtml;
+  //   content.querySelector('.type-damage table:last-child').innerHTML = damageToHtml;
+
+  // } else if (numTypes === 2) {
+  //   let response = await fetch ( clickedPokemon['types']['0']['type']['url']);// for exampel url: https://pokeapi.co/api/v2/type/10/
+  //   let type01 = await response.json();
+
+  //   let response2 = await fetch ( clickedPokemon['types']['1']['type']['url']);// for exampel url: https://pokeapi.co/api/v2/type/3/
+  //   let type02 = await response2.json();
+
+  // } else {
+  //   console.warn('Type table not possible for more than two types')
+  // }
+
+
 
   content.innerHTML += `
   <div class="Info-section">
-  <h3>Infos</h3>
-  <div class="general-Info">
-    <div><b>Weight:</b> ${(clickedPokemon.weight/10).toFixed(1)} kg</div>
-    <div><b>Height:</b> ${(clickedPokemon.height/10).toFixed(1)} m</div>
-    <div class="abilities"> <b>Abilities:</b> ${abilitiesHTML} </div>
-    <div><b>Weakness:</b> </div>
-    <div><b>flavor text:</b> <br> ${speciesJson['flavor_text_entries']['10']['flavor_text']} </div>
+  <h3>Effectiveness of Types</h3><br>
+
+  <div class="type-damage">
+  <h4>Type damage from</h4>
+    <table>
+    </table> <br>
+
+    <h4>Type damage to</h4>                
+    <table>
+    </table>
   </div>
-  <br>
-  <h3>Effectiveness of Types</h3>
+
   </div>
   `;
 }
 
-
-
+// Lode function for the bottom of the page with onclick fukction ---> is working woud be better with Scrolle fuktion look at that at the end!!! 
 const ALL_POKEMON_COUNT = 1025;
 const BUFFER_DISTANCE = 10;
 
@@ -166,14 +334,14 @@ async function loadMorePokemon() {
   }
 
   // Increase the starting and ending indices for loading
-  currentStartPokemon += 15;
+  currentStartPokemon += 40;
   currentEndPokemon = Math.min(currentEndPokemon + 50, ALL_POKEMON_COUNT); // Prevent exceeding total count
 
   for (let i = currentStartPokemon; i < currentEndPokemon; i++) {
     const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     const response = await fetch(url);
     currentPokemon = await response.json();
-    renderPokemonCard(); 
+    renderPokemonCard();
   }
   addCardScroll()
 }
