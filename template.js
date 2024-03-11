@@ -13,9 +13,14 @@ function topInfoCard(clickedPokemon) {
 
     content.innerHTML += `
    <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor});">
+   <div class="close-container"><img class="close" src="./img/close.png" alt="close" onclick="closeInfo()"></div>
      <div class="top-card-info">
        <h2>${clickedPokemon.name}</h2>
        <p>ID: #${clickedPokemon.id.toString().padStart(4, '0')}</p>
+     </div>
+     <div id="next-pokemon">
+      <div class="other-pokemon"> </div>
+      <div class="other-pokemon"> </div>
      </div>
      <div class="types-Info">${types}</div>
      </div>

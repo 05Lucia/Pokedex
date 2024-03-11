@@ -13,14 +13,16 @@
 
 <body onload="lodePokemon()">
     <div class="backgroundImg">
+        <div id="body-overlay" class="d-none" onclick="closeInfo()">
+            <div class="info-card d-none" id="info-card" onclick="doNotClose(event)">
+               <img class="close" src="./img/close.png" alt="close" onclick="closeInfo()"> 
+            </div>
+        </div>
         <header>
             <img src="./img/Pokemon_logo.png" alt="">
             <input type="text" placeholder="Search for Pokemon Name">
         </header>
         <main>
-            <div class="info-card" id="info-card">
-                
-            </div>
             <br>
             <div class="pokeCardContanier" id="pokeCardContanier"></div>
 

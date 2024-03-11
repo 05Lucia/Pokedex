@@ -20,7 +20,7 @@ let TypeColors = [
 ];
 
 const START_POKEMON = 0;
-const END_POKEMON = 40;
+const END_POKEMON = 50;
 
 let currentStartPokemon = START_POKEMON; // Track current starting index
 let currentEndPokemon = END_POKEMON; // Track current ending index
@@ -79,12 +79,23 @@ function addCardClick() {
   pokeCards.forEach(pokeCard => {
     pokeCard.addEventListener('click', function () {
       const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
-      renderPokemonInfo(cardId); // Pass card ID as argument
+      document.getElementById('body-overlay').classList.remove('d-none')
+      document.getElementById('info-card').classList.remove('d-none')
+      renderPokemonInfo(cardId, event); // Pass card ID as argument
     });
   });
 }
 
-async function renderPokemonInfo(cardId) {
+function closeInfo() {
+  document.getElementById('body-overlay').classList.add('d-none')
+  document.getElementById('info-card').classList.add('d-none')
+}
+
+function doNotClose(event) {
+  event.stopPropagation();
+}
+
+async function renderPokemonInfo(cardId, ) {
   const content = document.getElementById('info-card');
   content.innerHTML = `
   <div id="top-Section"></div>
@@ -109,7 +120,7 @@ function InfoCardButton(clickedPokemon) {
 
   // Define function references for event listeners
   const infoClick = () => infoSectionGenral(clickedPokemon);
-  const evolutionClick = () => evolutinInfo(clickedPokemon);
+  const evolutionClick = () => evolutinInfo();
   const statsClick = () => stautsInfo(clickedPokemon);
   const movesClick = () => movesInfo(clickedPokemon);
 
@@ -179,7 +190,7 @@ async function infoSectionGenral(clickedPokemon) {
   // infoSectionTypes(clickedPokemon);
 }
 
-async function evolutinInfo(clickedPokemon) {
+async function evolutinInfo() {
   let content = document.getElementById('Info-Section');
   content.innerHTML = '';
 
@@ -196,7 +207,7 @@ async function evolutinInfo(clickedPokemon) {
   <h3>This Pokémon has no further evolutions.</h3>
   </div>`;
 
-  } if (evolvesTo.length === 1) {
+  } if (evolvesTo.length >= 1) {
     const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
     const baseEvolution = await response0.json();
     const imgEvolution0 = baseEvolution['sprites']['other']['official-artwork']['front_default'];
@@ -214,9 +225,11 @@ async function evolutinInfo(clickedPokemon) {
       <br>
       <b>Evolves To:</b>
       <br>
-      <div class="infoPokemonImg text-big">
-        <div><b>${evolvesTo['0']['species']['name']}</b></div>
-        <img  src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
+      <div class="first-evolution" id="first-evolution">
+        <div class="infoPokemonImg text-big">
+          <div><b>${evolvesTo['0']['species']['name']}</b></div>
+          <img  src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
+        </div>
       </div>
       <br>
     </div>
@@ -237,9 +250,49 @@ async function evolutinInfo(clickedPokemon) {
       </div>
       `;
 
-    }
-  } else {
+      if (evolvesTo['0']['evolves_to'].length === 2) {
+        let content = document.getElementById('info-content');
 
+        const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['1']['species']['name']}`);
+        const secondEvolution = await response2.json();
+        const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+
+        content.innerHTML += `
+        <div class="infoPokemonImg text-big">
+        <b>Evolves To:</b>
+        <br>
+        <div><b>${evolvesTo['0']['evolves_to']['1']['species']['name']}</b></div>
+        <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['1']['species']['name']}">
+      </div>
+      `;
+      }
+    } if (evolvesTo.length >= 2) {
+      let content = document.getElementById('first-evolution');
+
+      const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['species']['name']}`);
+      const firstEvolution = await response1.json();
+      const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
+
+      content.innerHTML += `
+      <div class="infoPokemonImg text-big">
+        <div><b>${evolvesTo['1']['species']['name']}</b></div>
+        <img  src="${imgEvolution1}" alt="${evolvesTo['1']['species']['name']}">
+      </div>
+      `;
+    } if (evolvesTo.length >= 3) {
+      let content = document.getElementById('first-evolution');
+
+      const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['species']['name']}`);
+      const firstEvolution = await response1.json();
+      const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
+
+      content.innerHTML += `
+      <div class="infoPokemonImg text-big">
+        <div><b>${evolvesTo['2']['species']['name']}</b></div>
+        <img  src="${imgEvolution1}" alt="${evolvesTo['2']['species']['name']}">
+      </div>
+      `;
+    }
   }
 
   // if (evolutionJson['evolves_to']['0']['species'] === true) {
@@ -334,7 +387,7 @@ async function loadMorePokemon() {
   }
 
   // Increase the starting and ending indices for loading
-  currentStartPokemon += 40;
+  currentStartPokemon += 50;
   currentEndPokemon = Math.min(currentEndPokemon + 50, ALL_POKEMON_COUNT); // Prevent exceeding total count
 
   for (let i = currentStartPokemon; i < currentEndPokemon; i++) {
