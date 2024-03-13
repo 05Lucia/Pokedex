@@ -27,9 +27,10 @@ let currentEndPokemon = END_POKEMON; // Track current ending index
 
 
 let response
-let currentPokemon;
+let currentPokemon = null;
 
 async function init() {
+  loadedPokemon = [];
   const container = document.getElementById('pokeCardContanier');
   container.innerHTML = '';
   await lodePokemon()
@@ -41,9 +42,12 @@ async function lodePokemon() {
     const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`
     const response = await fetch(url);
     currentPokemon = await response.json();
+    loadedPokemon.push(currentPokemon); // Add Pokemon data to array
     renderPokemonCard();
   }
 }
+
+let loadedPokemon = [];
 
 function renderPokemonCard() {
   const currentPokemonImg = currentPokemon['sprites']['other']['official-artwork']['front_default'];
@@ -72,6 +76,47 @@ function renderPokemonCard() {
   addCardClick()
 }
 
+async function search() {
+  let query = document.getElementById('search').value.toLowerCase();
+  const container = document.getElementById('pokeCardContanier');
+  let hasMatch = false; // Flag to track if any match is found
+
+  if (!query) {
+    window.location.reload() 
+    return; // Exit the function if no query is present
+  }
+
+  // Loop through all Pokemon cards
+  for (const card of container.querySelectorAll('.pokeCard')) {
+    const cardName = card.querySelector('h3').textContent.toLowerCase();
+    const cardId = card.id.replace('pokeCard-', '') // Extract ID from card ID attribute
+    const isMatch = cardName.includes(query) || cardId === query;
+    if (isMatch) {
+      hasMatch = true;
+      card.style.display = 'flex'; // Show matching card
+    } else {
+      card.style.display = 'none'; // Hide non-matching card
+    }
+  }
+
+  // Check for no matches after looping through existing cards
+  if (!hasMatch) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${query}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) { // Check for successful response (status code 200)
+        throw new Error('Pokemon not found'); // Throw error for non-existent Pokemon
+      }
+      currentPokemon = await response.json();
+      loadedPokemon.push(currentPokemon); // Add Pokemon data to array
+      renderPokemonCard(currentPokemon); // Render the newly fetched Pokemon
+    } catch (error) {
+      container.innerHTML = 'The Pokemon you are looking for does not exist!'; // Display error message
+    }
+  }
+}
+
+
 function addCardClick() {
   const container = document.getElementById('pokeCardContanier');
   const pokeCards = container.querySelectorAll('.pokeCard');
@@ -81,7 +126,7 @@ function addCardClick() {
       const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
       document.getElementById('body-overlay').classList.remove('d-none')
       document.getElementById('info-card').classList.remove('d-none')
-      renderPokemonInfo(cardId, event); // Pass card ID as argument
+      renderPokemonInfo(cardId); // Pass card ID as argument
     });
   });
 }
@@ -95,7 +140,7 @@ function doNotClose(event) {
   event.stopPropagation();
 }
 
-async function renderPokemonInfo(cardId, ) {
+async function renderPokemonInfo(cardId,) {
   const content = document.getElementById('info-card');
   content.innerHTML = `
   <div id="top-Section"></div>
@@ -294,22 +339,11 @@ async function evolutinInfo() {
       `;
     }
   }
-
-  // if (evolutionJson['evolves_to']['0']['species'] === true) {
-
-  //   let evolutionHTML = "";
-  //   for (const chain of evolutionJson.evolves_to) {
-  //     evolutionHTML += `
-  //   <div>${chain['0']['species']['name']} </div>
-  //   <img  src="${chain['0']['species']['url']}" alt="">
-  //   `; // Extract and display ability name
-  //   }
-  // }
-
-
-
-
 }
+
+
+
+// ---------------------------------------------------------------------------------------------------------
 
 // Function to determine the number of Pokemon types
 function getNumPokemonTypes(types) {
@@ -394,6 +428,7 @@ async function loadMorePokemon() {
     const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     const response = await fetch(url);
     currentPokemon = await response.json();
+    loadedPokemon.push(currentPokemon); // Add Pokemon data to array
     renderPokemonCard();
   }
   addCardScroll()
