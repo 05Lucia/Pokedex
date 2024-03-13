@@ -82,7 +82,7 @@ async function search() {
   let hasMatch = false; // Flag to track if any match is found
 
   if (!query) {
-    window.location.reload() 
+    window.location.reload()
     return; // Exit the function if no query is present
   }
 
@@ -152,8 +152,8 @@ async function renderPokemonInfo(cardId,) {
   // Build HTML content based on clickedPokemon information
 
   topInfoCard(clickedPokemon);
-  InfoCardButton(clickedPokemon)
-  infoSectionGenral(clickedPokemon);
+  InfoCardButton(clickedPokemon);
+  infoSectionGenral(clickedPokemon); // up to 3 evolution
 }
 
 function InfoCardButton(clickedPokemon) {
@@ -245,6 +245,13 @@ async function evolutinInfo() {
 
   const evolvesTo = evolutionJson['chain']['evolves_to'];
 
+  noEvolution(evolvesTo, content);
+  normalEvolution(evolvesTo, content, evolutionJson);
+  multiplEvolutions(evolvesTo, content, evolutionJson);
+  eevee(evolvesTo, content, evolutionJson);
+}
+
+function noEvolution(evolvesTo, content) {
   if (evolvesTo.length === 0) {
     content.innerHTML += `
   <div class="info-section">
@@ -252,7 +259,11 @@ async function evolutinInfo() {
   <h3>This Pokémon has no further evolutions.</h3>
   </div>`;
 
-  } if (evolvesTo.length >= 1) {
+  }
+}
+
+async function normalEvolution(evolvesTo, content, evolutionJson) {
+  if (evolvesTo.length === 1) {
     const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
     const baseEvolution = await response0.json();
     const imgEvolution0 = baseEvolution['sprites']['other']['official-artwork']['front_default'];
@@ -279,7 +290,7 @@ async function evolutinInfo() {
       <br>
     </div>
     `;
-    if (evolvesTo['0']['evolves_to'].length !== 0) {
+    if (evolvesTo['0']['evolves_to'].length >= 1) {
       let content = document.getElementById('info-content');
 
       const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['0']['species']['name']}`);
@@ -294,24 +305,74 @@ async function evolutinInfo() {
         <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['0']['species']['name']}">
       </div>
       `;
+      secondSecondEvolution(evolvesTo);
+    }
+  }
+}
 
-      if (evolvesTo['0']['evolves_to'].length === 2) {
-        let content = document.getElementById('info-content');
+async function secondSecondEvolution(evolvesTo) {
+  if (evolvesTo['0']['evolves_to'].length === 2) { // so if ther is a 2. second evolution 
+    let content = document.getElementById('info-content');
 
-        const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['1']['species']['name']}`);
-        const secondEvolution = await response2.json();
-        const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+    const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['1']['species']['name']}`);
+    const secondEvolution = await response2.json();
+    const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
 
-        content.innerHTML += `
+    content.innerHTML += `
+    <div class="infoPokemonImg text-big">
+    <b>Evolves To:</b>
+    <br>
+    <div><b>${evolvesTo['0']['evolves_to']['1']['species']['name']}</b></div>
+    <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['1']['species']['name']}">
+  </div>
+  `;
+  }
+}
+
+async function multiplEvolutions(evolvesTo, content, evolutionJson) {
+  if (evolvesTo.length > 1 && evolvesTo.length < 3) {
+    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
+    const baseEvolution = await response0.json();
+    const imgEvolution0 = baseEvolution['sprites']['other']['official-artwork']['front_default'];
+
+    const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['species']['name']}`);
+    const firstEvolution = await response1.json();
+    const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
+
+    content.innerHTML += `
+    <div class="info-section" id="info-content">
+      <div class="infoPokemonImg text-big">
+        <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
+        <img  src="${imgEvolution0}" alt="${evolutionJson['chain']['species']['name']}">
+      </div>
+      <br>
+      <b>Evolves To:</b>
+      <br>
+      <div class="first-evolution" id="first-evolution">
         <div class="infoPokemonImg text-big">
+          <div><b>${evolvesTo['0']['species']['name']}</b></div>
+          <img  src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
+        </div>
+      </div>
+      <br>
+    </div>
+    `;
+    if (evolvesTo['0']['evolves_to'].length === 1) {
+      let content = document.getElementById('info-content');
+
+      const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['evolves_to']['0']['species']['name']}`);
+      const secondEvolution = await response2.json();
+      const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+
+      content.innerHTML += `
+      <div class="infoPokemonImg text-big">
         <b>Evolves To:</b>
         <br>
-        <div><b>${evolvesTo['0']['evolves_to']['1']['species']['name']}</b></div>
-        <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['1']['species']['name']}">
+        <div><b>${evolvesTo['0']['evolves_to']['0']['species']['name']}</b></div>
+        <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['0']['species']['name']}">
       </div>
       `;
-      }
-    } if (evolvesTo.length >= 2) {
+    } if (evolvesTo.length >= 2 && evolvesTo.length < 3) {
       let content = document.getElementById('first-evolution');
 
       const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['species']['name']}`);
@@ -319,12 +380,29 @@ async function evolutinInfo() {
       const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
 
       content.innerHTML += `
-      <div class="infoPokemonImg text-big">
-        <div><b>${evolvesTo['1']['species']['name']}</b></div>
-        <img  src="${imgEvolution1}" alt="${evolvesTo['1']['species']['name']}">
-      </div>
-      `;
-    } if (evolvesTo.length >= 3) {
+          <div class="infoPokemonImg text-big">
+            <div><b>${evolvesTo['1']['species']['name']}</b></div>
+            <img  src="${imgEvolution1}" alt="${evolvesTo['1']['species']['name']}">
+          </div>
+          `;
+
+      if (evolvesTo['1']['evolves_to'].length === 1) {
+        let content = document.getElementById('info-content');
+
+        const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['evolves_to']['0']['species']['name']}`);
+        const secondEvolution = await response2.json();
+        const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+
+        content.innerHTML += `
+            <div class="infoPokemonImg text-big">
+              <b>Evolves To:</b>
+              <br>
+              <div><b>${evolvesTo['1']['evolves_to']['0']['species']['name']}</b></div>
+              <img  src="${imgEvolution2} " alt="${evolvesTo['1']['evolves_to']['0']['species']['name']}">
+            </div>
+            `;
+      }
+    } if (evolvesTo.length === 3) {
       let content = document.getElementById('first-evolution');
 
       const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['species']['name']}`);
@@ -332,12 +410,136 @@ async function evolutinInfo() {
       const imgEvolution1 = firstEvolution['sprites']['other']['official-artwork']['front_default'];
 
       content.innerHTML += `
-      <div class="infoPokemonImg text-big">
-        <div><b>${evolvesTo['2']['species']['name']}</b></div>
-        <img  src="${imgEvolution1}" alt="${evolvesTo['2']['species']['name']}">
-      </div>
-      `;
+          <div class="infoPokemonImg text-big">
+            <div><b>${evolvesTo['2']['species']['name']}</b></div>
+            <img  src="${imgEvolution1}" alt="${evolvesTo['2']['species']['name']}">
+          </div>
+          `;
+
+      if (evolvesTo['2']['evolves_to'].length === 1) {
+        let content = document.getElementById('info-content');
+
+        const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['evolves_to']['0']['species']['name']}`);
+        const secondEvolution = await response2.json();
+        const imgEvolution2 = secondEvolution['sprites']['other']['official-artwork']['front_default'];
+
+        content.innerHTML += `
+            <div class="infoPokemonImg text-big">
+              <b>Evolves To:</b>
+              <br>
+              <div><b>${evolvesTo['2']['evolves_to']['0']['species']['name']}</b></div>
+              <img  src="${imgEvolution2} " alt="${evolvesTo['2']['evolves_to']['0']['species']['name']}">
+            </div>
+            `;
+      }
     }
+  }
+}
+
+
+
+async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/api/v2/evolution-chain/67/ --> eevee's evolution chain!!
+  if (evolvesTo.length === 8) {
+    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`); 
+    const eevee = await response0.json();
+    const eeveeImg = eevee['sprites']['other']['official-artwork']['front_default'];
+
+    const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['species']['name']}`);
+    const eeveeWater = await response1.json();
+    const eeveeWaterImg = eeveeWater['sprites']['other']['official-artwork']['front_default'];
+
+    const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['species']['name']}`);
+    const eeveeElectricity = await response2.json();
+    const eeveeElectricityImg = eeveeElectricity['sprites']['other']['official-artwork']['front_default'];
+
+    const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['species']['name']}`);
+    const eeveeFire = await response3.json();
+    const eeveeFireImg = eeveeFire['sprites']['other']['official-artwork']['front_default'];
+
+    const response4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['3']['species']['name']}`);
+    const eeveePsy = await response4.json();
+    const eeveePsyImg = eeveePsy['sprites']['other']['official-artwork']['front_default'];
+
+    const response5 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['4']['species']['name']}`);
+    const eeveeDark = await response5.json();
+    const eeveeDarkImg = eeveeDark['sprites']['other']['official-artwork']['front_default'];
+
+    const response6 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['5']['species']['name']}`);
+    const eeveeGrass = await response6.json();
+    const eeveeGrassImg = eeveeGrass['sprites']['other']['official-artwork']['front_default'];
+
+    const response7 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['6']['species']['name']}`);
+    const eeveeIce = await response7.json();
+    const eeveeIceImg = eeveeIce['sprites']['other']['official-artwork']['front_default'];
+
+    const response8 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['7']['species']['name']}`);
+    const eeveeFairy = await response8.json();
+    const eeveeFairyImg = eeveeFairy['sprites']['other']['official-artwork']['front_default'];
+
+    content.innerHTML += `
+    <div class="info-section text-big" id="info-content">
+    <br>
+    <div class="eevee-row">
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['0']['species']['name']}</b></div>
+        <img  src="${eeveeWaterImg} " alt="${evolvesTo['0']['species']['name']}">
+      </div>
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['1']['species']['name']}</b></div>
+        <img  src="${eeveeElectricityImg} " alt="${evolvesTo['1']['species']['name']}">
+      </div>
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['2']['species']['name']}</b></div>
+        <img  src="${eeveeFireImg} " alt="${evolvesTo['2']['species']['name']}">
+      </div>
+    </div>
+    <br>
+    <div class="arrow-row">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <br>
+    <div class="canter-row">
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['3']['species']['name']}</b></div>
+        <img  src="${eeveePsyImg} " alt="${evolvesTo['3']['species']['name']}">
+      </div>
+      <div></div>
+      <div class="eeveeImg">
+        <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
+        <img  src="${eeveeImg}" alt="${evolutionJson['chain']['species']['name']}">
+      </div>
+      <div></div>
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['4']['species']['name']}</b></div>
+        <img  src="${eeveeDarkImg} " alt="${evolvesTo['4']['species']['name']}">
+      </div>
+    </div>
+    <br>
+    <div class="arrow-row">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <br>
+    <div class="eevee-row">
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['5']['species']['name']}</b></div>
+        <img  src="${eeveeGrassImg} " alt="${evolvesTo['5']['species']['name']}">
+      </div>
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['6']['species']['name']}</b></div>
+        <img  src="${eeveeIceImg} " alt="${evolvesTo['6']['species']['name']}">
+      </div>
+      <div class="eeveeImg">
+        <div><b>${evolvesTo['7']['species']['name']}</b></div>
+        <img  src="${eeveeFairyImg} " alt="${evolvesTo['7']['species']['name']}">
+      </div>
+    </div>
+    
+    </div>
+    `;
   }
 }
 
@@ -431,7 +633,6 @@ async function loadMorePokemon() {
     loadedPokemon.push(currentPokemon); // Add Pokemon data to array
     renderPokemonCard();
   }
-  addCardScroll()
 }
 
 

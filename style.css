@@ -22,7 +22,7 @@
 body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
-    background: radial-gradient(#5f5f5f 10%, #ffff);
+    background: radial-gradient(#8e8d8d 5%, #ffff);
 }
 
 .backgroundImg {
@@ -232,7 +232,7 @@ a {
     text-transform: capitalize;
 }
 
-.info-card img {
+.pokemon-img {
     width: 240px;
     height: auto;
     z-index: 1;
@@ -294,9 +294,10 @@ a {
 
 #Info-Section {
     width: 95%;
+    height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    /* Hide horizontal scrollbar */
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -322,6 +323,7 @@ a {
 }
 
 .info-section {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -349,6 +351,29 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.eevee-row {
+    height: 100px;
+    display: flex;
+}
+
+.canter-row {
+    height: 100px;
+    display: flex;
+}
+
+.eeveeImg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eeveeImg img {
+ width: 100px !important;
+ height: auto;
+ margin-top: 0;
 }
 
 @media (min-width: 450px) {

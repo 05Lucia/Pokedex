@@ -24,7 +24,7 @@ function topInfoCard(clickedPokemon) {
      </div>
      <div class="types-Info">${types}</div>
      </div>
-       <img src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
+       <img class="pokemon-img" src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
    
      `;
 }
