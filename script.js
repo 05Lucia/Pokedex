@@ -457,7 +457,7 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     const eeveeFire = await response3.json();
     const eeveeFireImg = eeveeFire['sprites']['other']['official-artwork']['front_default'];
     const eeveeFireEvo = evolvesTo['2']['evolution_details']['0'];
-    
+
 
     const response4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['3']['species']['name']}`);
     const eeveePsy = await response4.json();
@@ -467,7 +467,7 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     const response5 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['4']['species']['name']}`);
     const eeveeDark = await response5.json();
     const eeveeDarkImg = eeveeDark['sprites']['other']['official-artwork']['front_default'];
-    const eeveeDarkEvo = evolvesTo['4']['evolution_details']['0']; 
+    const eeveeDarkEvo = evolvesTo['4']['evolution_details']['0'];
 
     const response6 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['5']['species']['name']}`);
     const eeveeGrass = await response6.json();
@@ -567,7 +567,7 @@ function evolutionDetails(pokemon) {
   } if (pokemon.min_affection) {
     affection = pokemon.min_affection;
     details.push(`Min Affection: ${affection}`);
-  }if (pokemon.item && pokemon.item.name) {
+  } if (pokemon.item && pokemon.item.name) {
     item = pokemon.item.name;
     details.push(`Use ${item}`);
   } if (pokemon.time_of_day) {
@@ -577,11 +577,24 @@ function evolutionDetails(pokemon) {
     location = pokemon.location.name;
     details.push(`Go to ${location}`);
   } if (pokemon.min_level) {
-    lvl = pokemon.min_level
-    details.push(`Level up ${lvl}`)
+    lvl = pokemon.min_level;
+    details.push(`Level up ${lvl}`);
+  } if (pokemon.trigger.name === trade) {
+    trade = pokemon.trigger.name;
+    details.push(`${trade}`);
+  } if (pokemon.turn_upside_down === true) {
+    details.push(`Turn upside down`);
+  } if (pokemon.trigger.name === other) {
+    details.push(`Other`);
+  } if (pokemon.held_item && pokemon.held_item.name) {
+    item = pokemon.held_item.name
+    details.push(`Use ${item}`);
+  } if (pokemon.known_move && pokemon.known_move.name) {
+    move = pokemon.known_move.name;
+    details.push(`Level up knowing ${move}`);
+  } if (pokemon.needs_overworld_rain === true) {
+    details.push(`in Rain`);
   }
-
-
   return details
 }
 
