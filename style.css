@@ -22,7 +22,7 @@
 body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
-    background: radial-gradient(#8e8d8d 5%, #ffff);
+    background: radial-gradient(#b1b1b1 , #ffff);
 }
 
 .backgroundImg {
@@ -32,6 +32,7 @@ body {
     background-repeat: no-repeat;
     background-size: 40%;
     background-attachment: fixed;
+    
 }
 
 header {
@@ -73,7 +74,7 @@ main {
     align-items: center;
     gap: 2rem;
     padding-bottom: 2rem;
-    min-height: 70vh;
+    min-height: 65vh;
 }
 
 .pokeCard {
@@ -206,10 +207,10 @@ a {
     background-color: white;
     border-radius: 20px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
-    overflow: hidden; 
+    overflow:auto; 
     filter: drop-shadow(0px 0px 3px white);
     z-index: 4;
 }
@@ -224,8 +225,12 @@ a {
 }
 
 .close-container {
+    height: 30px;
     width: 95%;
     text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .info-card h2 {
@@ -233,11 +238,10 @@ a {
 }
 
 .pokemon-img {
-    width: 240px;
+    width: 240px; 
     height: auto;
-    z-index: 1;
+    z-index: 5;
     margin-top: -170px;
-    
 }
 
 #top-Section {
@@ -246,34 +250,35 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
 .info-card-top {
-    padding-top: 16px;
+    height: 280px;
     display: flex;
     flex-direction: column;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 20px;
-    padding-bottom: 170px;
+    position: sticky;
+    top: 0;
 }
 
 .top-card-info {
+    height: 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 95%;
-    padding-bottom: 16px;
 }
 
 .types-Info {
+    height: 2rem;
     display: flex;
     gap: 1rem;
     width: 95%;
     border: none;
-    margin-bottom: 16px;
-
 }
 
 .info-btn {
@@ -282,7 +287,6 @@ a {
     justify-content: space-between;
     align-items: center;
     flex-shrink: inherit;
-    
 }
 
 .info-btn button {
@@ -293,9 +297,14 @@ a {
     font-size: 16px;
 }
 
+.info-btn button:hover {
+    cursor: pointer;
+}
+
 #Info-Section {
     width: 95%;
     height: 100%;
+    max-height: 500px;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -303,6 +312,8 @@ a {
     flex-direction: column;
     flex-wrap: wrap;
     color: #414141;
+    z-index: 1;
+    bottom: 0;
 }
 
 #Info-Section::-webkit-scrollbar {
@@ -316,7 +327,6 @@ a {
 
 .general-Info {
     width: 100%;
-
 }
 
 .text-big {
@@ -327,7 +337,7 @@ a {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -343,7 +353,7 @@ a {
 }
 
 .infoPokemonImg img {
- width: 150px;
+ width: 140px;
  height: auto;
  margin-top: 0;
 }
@@ -351,17 +361,30 @@ a {
 .first-evolution {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .eevee-row {
     height: 100px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .canter-row {
     height: 100px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.arrow-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .eeveeImg {
@@ -375,6 +398,24 @@ a {
  width: 100px !important;
  height: auto;
  margin-top: 0;
+}
+
+.lvl-up-arrow-down {
+    display: flex;
+    align-items: center;
+    justify-content:flex-start;
+    flex-direction: column;
+}
+
+.lvl-up-arrow-down img {
+    height: 50px;
+    width: auto;
+}
+
+.multi-evo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (min-width: 450px) {

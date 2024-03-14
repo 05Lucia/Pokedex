@@ -10,6 +10,17 @@ function topInfoCard(clickedPokemon) {
         const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
         return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
     }).join('');
+ 
+    // let pokemonBefor;
+    // if (clickedPokemon.id !==1) {
+    //   pokemonBefor = clickedPokemon.id--;
+    //   return
+    // }
+    // let pokemonAfter; 
+    // if (clickedPokemon.id !==1025) {
+    //   pokemonAfter = clickedPokemon.id++;
+    //   return
+    // } not workin jet!!!
 
     content.innerHTML += `
    <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor})">
