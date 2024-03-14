@@ -437,44 +437,54 @@ async function multiplEvolutions(evolvesTo, content, evolutionJson) {
 }
 
 
-
 async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/api/v2/evolution-chain/67/ --> eevee's evolution chain!!
   if (evolvesTo.length === 8) {
-    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`); 
+    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
     const eevee = await response0.json();
     const eeveeImg = eevee['sprites']['other']['official-artwork']['front_default'];
 
     const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['species']['name']}`);
     const eeveeWater = await response1.json();
     const eeveeWaterImg = eeveeWater['sprites']['other']['official-artwork']['front_default'];
+    const eeveeWaterEvo = evolvesTo['0']['evolution_details']['0'];
 
     const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['species']['name']}`);
     const eeveeElectricity = await response2.json();
     const eeveeElectricityImg = eeveeElectricity['sprites']['other']['official-artwork']['front_default'];
+    const eeveeElectricityEvo = evolvesTo['1']['evolution_details']['0'];
 
     const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['species']['name']}`);
     const eeveeFire = await response3.json();
     const eeveeFireImg = eeveeFire['sprites']['other']['official-artwork']['front_default'];
+    const eeveeFireEvo = evolvesTo['2']['evolution_details']['0'];
+    
 
     const response4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['3']['species']['name']}`);
     const eeveePsy = await response4.json();
     const eeveePsyImg = eeveePsy['sprites']['other']['official-artwork']['front_default'];
+    const eeveePsyEvo = evolvesTo['3']['evolution_details']['0'];
 
     const response5 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['4']['species']['name']}`);
     const eeveeDark = await response5.json();
     const eeveeDarkImg = eeveeDark['sprites']['other']['official-artwork']['front_default'];
+    const eeveeDarkEvo = evolvesTo['4']['evolution_details']['0']; 
 
     const response6 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['5']['species']['name']}`);
     const eeveeGrass = await response6.json();
     const eeveeGrassImg = eeveeGrass['sprites']['other']['official-artwork']['front_default'];
+    const eeveeGrassEvo = evolvesTo['5']['evolution_details']['3']
 
     const response7 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['6']['species']['name']}`);
     const eeveeIce = await response7.json();
     const eeveeIceImg = eeveeIce['sprites']['other']['official-artwork']['front_default'];
+    const eeveeIceEvo = evolvesTo['6']['evolution_details']['3']
 
     const response8 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['7']['species']['name']}`);
     const eeveeFairy = await response8.json();
     const eeveeFairyImg = eeveeFairy['sprites']['other']['official-artwork']['front_default'];
+    const eeveeFairyEvo1 = evolvesTo['7']['evolution_details']['0'] // ther is a problem with this Json and the next. 
+    const eeveeFairyEvo2 = evolvesTo['7']['evolution_details']['1']
+
 
     content.innerHTML += `
     <div class="info-section text-big" id="info-content">
@@ -495,9 +505,9 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     </div>
     <br>
     <div class="arrow-row">
-      <div></div>
-      <div></div>
-      <div></div>
+      <div>${evolutionDetails(eeveeWaterEvo)}</div>
+      <div>${evolutionDetails(eeveeElectricityEvo)}</div>
+      <div>${evolutionDetails(eeveeFireEvo)}</div>
     </div>
     <br>
     <div class="canter-row">
@@ -505,12 +515,12 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
         <div><b>${evolvesTo['3']['species']['name']}</b></div>
         <img  src="${eeveePsyImg} " alt="${evolvesTo['3']['species']['name']}">
       </div>
-      <div></div>
+      <div>${evolutionDetails(eeveePsyEvo)}</div>
       <div class="eeveeImg">
         <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
         <img  src="${eeveeImg}" alt="${evolutionJson['chain']['species']['name']}">
       </div>
-      <div></div>
+      <div>${evolutionDetails(eeveeDarkEvo)}</div>
       <div class="eeveeImg">
         <div><b>${evolvesTo['4']['species']['name']}</b></div>
         <img  src="${eeveeDarkImg} " alt="${evolvesTo['4']['species']['name']}">
@@ -518,9 +528,9 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     </div>
     <br>
     <div class="arrow-row">
-      <div></div>
-      <div></div>
-      <div></div>
+      <div>${evolutionDetails(eeveeGrassEvo)} or go to one of thes Location: eterna forest, pinwheel forest, kalos route 20</div>
+      <div>${evolutionDetails(eeveeIceEvo)}</div>
+      <div> ${evolutionDetails(eeveeFairyEvo2)} or ${evolutionDetails(eeveeFairyEvo1)}</div>
     </div>
     <br>
     <div class="eevee-row">
@@ -541,6 +551,38 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     </div>
     `;
   }
+}
+
+
+function evolutionDetails(pokemon) {
+  if (!pokemon) {
+    return 'Details not available';
+  }
+
+  const details = [];
+
+  if (pokemon['min_happiness']) { // to check if the feeld exist in the Pokemon JSON
+    minHappiness = pokemon.min_happiness;
+    details.push(`Happines Level: ${minHappiness}`);
+  } if (pokemon.min_affection) {
+    affection = pokemon.min_affection;
+    details.push(`Min Affection: ${affection}`);
+  }if (pokemon.item && pokemon.item.name) {
+    item = pokemon.item.name;
+    details.push(`Use ${item}`);
+  } if (pokemon.time_of_day) {
+    time = pokemon.time_of_day;
+    details.push(`time ${time}`);
+  } if (pokemon.location && pokemon.location.name) {
+    location = pokemon.location.name;
+    details.push(`Go to ${location}`);
+  } if (pokemon.min_level) {
+    lvl = pokemon.min_level
+    details.push(`Level up ${lvl}`)
+  }
+
+
+  return details
 }
 
 

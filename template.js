@@ -8,11 +8,11 @@ function topInfoCard(clickedPokemon) {
 
     const types = clickedPokemon['types'].map(type => {
         const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
-        return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
+        return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
     }).join('');
 
     content.innerHTML += `
-   <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor});">
+   <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor})">
    <div class="close-container"><img class="close" src="./img/close.png" alt="close" onclick="closeInfo()"></div>
      <div class="top-card-info">
        <h2>${clickedPokemon.name}</h2>
@@ -24,7 +24,7 @@ function topInfoCard(clickedPokemon) {
      </div>
      <div class="types-Info">${types}</div>
      </div>
-       <img class="pokemon-img" src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
+       <img class="pokemon-img" style="filter: drop-shadow(0px 0px 4px ${typeColor})" src="${clickedPokemon['sprites']['other']['official-artwork']['front_default']}" alt="${clickedPokemon.name}">
    
      `;
 }
