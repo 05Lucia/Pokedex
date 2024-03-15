@@ -547,12 +547,15 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     <br>
     <div class="arrow-row">
       <div class="arrow">
+        <img src="./img/oben-links-50 (1).png" alt="arrow up-left">
         <div>${evolutionDetails(eeveeWaterEvo)}</div>
       </div>
       <div class="arrow">
+        <img src="./img/hoch-50.png" alt="arrow up">
         <div>${evolutionDetails(eeveeElectricityEvo)}</div>
       </div>
       <div class="arrow">
+        <img src="./img/oben-rechts-50.png" alt="arrow up-right">
         <div>${evolutionDetails(eeveeFireEvo)}</div>
       </div>
     </div>
@@ -562,12 +565,18 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
         <div><b>${evolvesTo['3']['species']['name']}</b></div>
         <img  src="${eeveePsyImg} " alt="${evolvesTo['3']['species']['name']}">
       </div>
+      <div class="arrow-center">
       <div>${evolutionDetails(eeveePsyEvo)}</div>
+      <img src="./img/links-50.png" alt="arrow left">
+      </div>
       <div class="eeveeImg">
         <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
         <img  src="${eeveeImg}" alt="${evolutionJson['chain']['species']['name']}">
       </div>
+      <div class="arrow-center">
       <div>${evolutionDetails(eeveeDarkEvo)}</div>
+      <img src="./img/rechts-50.png" alt="arrow right">
+      </div>
       <div class="eeveeImg">
         <div><b>${evolvesTo['4']['species']['name']}</b></div>
         <img  src="${eeveeDarkImg} " alt="${evolvesTo['4']['species']['name']}">
@@ -577,13 +586,16 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
     <div class="arrow-row">
       <div class="arrow">
         <div>${evolutionDetails(eeveeGrassEvo)}</div>
+        <img src="./img/unten-links-50.png" alt="arrow dowen-left">
       </div>
       <div class="arrow">
         <div>${evolutionDetails(eeveeIceEvo)}</div>
+        <img src="./img/runter-50.png" alt="arrow dowen">
       </div>
       <div class="arrow">
         <div> ${evolutionDetails(eeveeFairyEvo2)}</div>
         <div> or ${evolutionDetails(eeveeFairyEvo1)}</div>
+        <img src="./img/unten-rechts-50.png" alt="arrow dowen-right">
       </div>
     </div>
     <br>
