@@ -283,6 +283,37 @@ function movesInfo(clickedPokemon) {
   const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
+  content.innerHTML += `
+  <div class="move-container">
+    <div>
+      <table id="move-table">
+        <tr class = "first-row">
+          <td>Level</td>
+          <td>Move</td>
+          <td>Type</td>
+          <td>Power</td>
+          <td titel="Power Point">PP</td>
+          <td titel="Accuracy">Acc</td>
+          <td>Method</td>
+        </tr>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  `;
+
+  const versionButtonsDiv = document.getElementById('btn-version');
+
+  versionButtonsDiv.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', () => {
+      const version = button.title;
+      lodeMoves(clickedPokemon, version);
+    });
+  });
+}
+
+function lodeMoves(clickedPokemon, version) {
 
 }
 

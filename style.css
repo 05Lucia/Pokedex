@@ -463,6 +463,17 @@ a {
     column-gap: 16px;
 }
 
+/* Moves-------------------------------------------------------------------------- */
+
+.move-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 32px;
+}
+
 @media (min-width: 450px) {
     .info-card {
         width: 80vw;

@@ -383,7 +383,7 @@ async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/a
 
 function evolutionDetails(pokemon) {
     if (!pokemon) {
-        return 'Details not available';
+        return '';
     }
     const details = [];
     if (pokemon['min_happiness']) { // to check if the feeld exist in the Pokemon JSON
