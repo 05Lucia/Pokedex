@@ -286,7 +286,7 @@ function movesInfo(clickedPokemon) {
   content.innerHTML += `
   <div class="move-container">
     <div>
-      <table id="move-table">
+      <table id="move-table" style="background-color: ${typeColor};">
         <tr class = "first-row">
           <td>Level</td>
           <td>Move</td>
@@ -296,24 +296,48 @@ function movesInfo(clickedPokemon) {
           <td titel="Accuracy">Acc</td>
           <td>Method</td>
         </tr>
-        <tbody id="table-body">
+        <tbody id="table-body" style="background-color: ${secondColor};">
         </tbody>
+        <tr style="height:1rem;"></tr>
       </table>
     </div>
   </div>
   `;
 
-  const versionButtonsDiv = document.getElementById('btn-version');
-
-  versionButtonsDiv.querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', () => {
-      const version = button.title;
-      lodeMoves(clickedPokemon, version);
-    });
-  });
+lodeMoves(clickedPokemon)
 }
 
-function lodeMoves(clickedPokemon, version) {
+async function lodeMoves(clickedPokemon) {
+  const container = document.getElementById('table-body');
+
+  for (let i = 0; i < clickedPokemon.moves.length; i++) {
+    const move = clickedPokemon.moves[i];
+
+    let lvl 
+
+    if (move.version_group_details['0'].level_learned_at > 0) {
+      lvl = move.version_group_details['0'].level_learned_at
+    } else {
+      lvl = '-'
+    } 
+
+    const url = move.move.url
+    const response = await fetch(url);
+    const moveJson = await response.json()
+
+    container.innerHTML += `
+    <tr>
+      <td>${lvl}</td>
+      <td>${move.move.name}</td>
+      <td>${moveJson.type.name}</td>
+      <td>${moveJson.power}</td>
+      <td>${moveJson.pp}</td>
+      <td>${moveJson.accuracy}</td>
+      <td>${move.version_group_details['0'].move_learn_method.name}</td>
+    </tr>
+    `;
+
+  }
 
 }
 

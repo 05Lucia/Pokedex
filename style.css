@@ -472,6 +472,21 @@ a {
     justify-content: center;
     gap: 32px;
     margin-top: 32px;
+    width: 100%;
+}
+
+.move-container table {
+    width: 90%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.move-container tr td {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
 }
 
 @media (min-width: 450px) {
