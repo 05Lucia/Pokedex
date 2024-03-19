@@ -201,6 +201,8 @@ a {
     align-items: center;
 }
 
+/* Info Card -------------------------------------------------- */
+
 .info-card {
     height: 90vh;
     width: 90vw;
@@ -270,6 +272,13 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    width: 95%;
+}
+
+#next-pokemon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 95%;
 }
 

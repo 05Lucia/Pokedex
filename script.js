@@ -62,7 +62,7 @@ function renderPokemonCard() {
     return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
   }).join('');
 
-  container.innerHTML += renderPokemonCardTemplate (currentPokemon, typeColor, secondColor, types, currentPokemonImg);
+  container.innerHTML += renderPokemonCardTemplate(currentPokemon, typeColor, secondColor, types, currentPokemonImg);
   addCardClick()
 }
 
@@ -153,8 +153,8 @@ function topInfoCard(clickedPokemon) {
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
   const types = clickedPokemon['types'].map(type => {
-      const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
-      return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
+    const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
+    return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
   }).join('');
 
   // let pokemonBefor;
@@ -168,7 +168,23 @@ function topInfoCard(clickedPokemon) {
   //   return
   // } not workin jet!!!
 
-  content.innerHTML += topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types);
+  content.innerHTML += topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types,);
+}
+
+function nextPokemon(Id) {
+  if (Id > 1) {
+    const next = Id - 1;
+    renderPokemonInfo(next)
+  }
+
+}
+
+function lastPokemon(Id) {
+  if (Id < 1025) {
+    const last = Id + 1;
+    renderPokemonInfo(last)
+  }
+
 }
 
 function InfoCardButton(clickedPokemon) {
@@ -226,7 +242,7 @@ async function infoSectionGenral(clickedPokemon) {
 
   const shinyPokemonImg = clickedPokemon['sprites']['other']['official-artwork']['front_shiny'];
 
-  content.innerHTML += infoSectionGenralTemplate (clickedPokemon, speciesJson, abilitiesHTML, shinyPokemonImg); 
+  content.innerHTML += infoSectionGenralTemplate(clickedPokemon, speciesJson, abilitiesHTML, shinyPokemonImg);
 }
 
 function habitat(speciesJson) {
@@ -242,7 +258,7 @@ function habitat(speciesJson) {
 }
 
 function flavorText(speciesJson) {
-   if (speciesJson['flavor_text_entries']['10']['flavor_text'] && speciesJson['flavor_text_entries']['10']['language']['name'] === 'en') {
+  if (speciesJson['flavor_text_entries']['10']['flavor_text'] && speciesJson['flavor_text_entries']['10']['language']['name'] === 'en') {
     return `
     ${speciesJson['flavor_text_entries']['10']['flavor_text']}
     `;
@@ -267,7 +283,7 @@ function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/p
   const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
-  content.innerHTML += TamplateStatsTable ();
+  content.innerHTML += TamplateStatsTable();
 
   const table = document.getElementById('stats-table')
   let highestStat = 0; // Initialize highest stat
@@ -282,7 +298,7 @@ function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/p
 
     const percent = Math.round((stat['base_stat'] / highestStat) * 100);
 
-    table.innerHTML += stautsInfoTamplate (stat, percent, secondColor, typeColor, highestStat);
+    table.innerHTML += stautsInfoTamplate(stat, percent, secondColor, typeColor, highestStat);
   }
 }
 
@@ -294,7 +310,7 @@ function movesInfo(clickedPokemon) {
   const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
-  content.innerHTML += moveTableTamplate (typeColor, secondColor);
+  content.innerHTML += moveTableTamplate(typeColor, secondColor);
   lodeMoves(clickedPokemon)
 }
 
@@ -316,7 +332,7 @@ async function lodeMoves(clickedPokemon) {
     const response = await fetch(url);
     const moveJson = await response.json()
 
-    container.innerHTML += moveTamplate (move, lvl, moveJson);
+    container.innerHTML += moveTamplate(move, lvl, moveJson);
   }
 }
 

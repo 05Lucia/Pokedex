@@ -1,4 +1,4 @@
-function topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types) {
+function topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types,) {
   return `
    <div class="info-card-top" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor})">
    <div class="close-container"><img class="close" src="./img/close.png" alt="close" onclick="closeInfo()"></div>
@@ -7,8 +7,8 @@ function topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types) {
        <p>ID: #${clickedPokemon.id.toString().padStart(4, '0')}</p>
      </div>
      <div id="next-pokemon">
-      <div class="other-pokemon"> </div>
-      <div class="other-pokemon"> </div>
+      <img src="img/links-50.png" alt="left" class="other-pokemon" onclick="nextPokemon(${clickedPokemon.id})">
+      <img src="img/rechts-50.png" alt="right" class="other-pokemon" onclick="lastPokemon(${clickedPokemon.id})">
      </div>
      <div class="types-Info">${types}</div>
      </div>
