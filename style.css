@@ -301,6 +301,8 @@ a {
     cursor: pointer;
 }
 
+/* general Information -------------------------------------- */
+
 #Info-Section {
     width: 95%;
     height: 100%;
@@ -355,6 +357,11 @@ a {
     width: 140px;
     height: auto;
     margin-top: 0;
+}
+
+.row {
+    display: flex;
+    gap: 4px;
 }
 
 /* Evolution ------------------------------------------- */
@@ -481,18 +488,38 @@ a {
     border-radius: 5px;
     padding-bottom: 16px;
     margin-bottom: 16px;
+    word-wrap: break-word;
 }
 
 .move-container tr td {
-    width: 100%;
     padding: 5px;
     text-align: center;
+}
+
+@media (max-width: 400px) {
+    .sats-collum {       
+        grid-template-columns: 25% 50% 5%; 
+    }
+}
+
+@media (max-width: 500px) {
+    .move-container tr td {
+        padding: 0;
+    }
+    .small-screen {
+        display: none;
+    }
+    .move-container table {
+        overflow: hidden;
+    }
 }
 
 @media (min-width: 450px) {
     .info-card {
         width: 80vw;
     }
+    
+    
 }
 
 @media (min-width: 800px) {

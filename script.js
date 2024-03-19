@@ -211,14 +211,16 @@ async function infoSectionGenral(clickedPokemon) {
 
   const shinyPokemonImg = clickedPokemon['sprites']['other']['official-artwork']['front_shiny'];
 
+
+
   content.innerHTML += `
   <div class="info-section" id="info-content">
   <h3>Infos</h3>
   <br>
-  <div class="flavor text-big"><b>flavor text:</b> <br> ${speciesJson['flavor_text_entries']['10']['flavor_text']}</div>
+  <div class="flavor text-big "><b>flavor text:</b> <br> <div id="flavor_text"></div></div>
   <br>
   <div class="general-Info">
-  <div class="text-big"> <b>Habitat</b> ${speciesJson.habitat.name} </div>
+    <div class="text-big row"> <b>Habitat: </b> <div id="habitat"></div> </div>
     <div  ><b>Weight:</b> ${(clickedPokemon.weight / 10).toFixed(1)} kg</div>
     <div><b>Height:</b> ${(clickedPokemon.height / 10).toFixed(1)} m</div>
     <div class="abilities text-big"> <b>Abilities:</b> ${abilitiesHTML} </div>
@@ -232,7 +234,36 @@ async function infoSectionGenral(clickedPokemon) {
   <br>
   </div>
   `;
-  // infoSectionTypes(clickedPokemon);
+  // infoSectionTypes(clickedPokemon);  
+  if (speciesJson['flavor_text_entries']['10']['flavor_text'] && speciesJson['flavor_text_entries']['10']['language']['name'] === 'en') {
+    const container = document.getElementById('flavor_text')
+    container.innerHTML = `
+    ${speciesJson['flavor_text_entries']['10']['flavor_text']}
+    `;
+  } if (speciesJson['flavor_text_entries']['10']['language']['name'] !== 'en') {
+    for (let i = 0; i < speciesJson['flavor_text_entries'].length; i++) {
+      const entry = speciesJson['flavor_text_entries'][i];
+      if (entry.language.name === 'en') {
+        const container = document.getElementById('flavor_text');
+        container.innerHTML = `
+          ${entry.flavor_text}
+        `;
+        break; // Exit the loop once English flavor text is found
+      }
+    }
+  } 
+
+  if (speciesJson.habitat && speciesJson.habitat.name) {
+    const container = document.getElementById('habitat')
+    container.innerHTML = `
+     ${speciesJson.habitat.name}
+    `;
+  } else {
+    const container = document.getElementById('habitat')
+    container.innerHTML = `
+     unknown
+    `;
+  }
 }
 
 function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/pokemon/1
@@ -285,26 +316,24 @@ function movesInfo(clickedPokemon) {
 
   content.innerHTML += `
   <div class="move-container">
-    <div>
-      <table id="move-table" style="background-color: ${typeColor};">
-        <tr class = "first-row">
-          <td>Level</td>
-          <td>Move</td>
-          <td>Type</td>
-          <td>Power</td>
-          <td titel="Power Point">PP</td>
-          <td titel="Accuracy">Acc</td>
-          <td>Method</td>
-        </tr>
-        <tbody id="table-body" style="background-color: ${secondColor};">
-        </tbody>
-        <tr style="height:1rem;"></tr>
-      </table>
-    </div>
+    <table id="move-table" style="background-color: ${typeColor};">
+      <tr class = "first-row">
+        <td>Level</td>
+        <td>Move</td>
+        <td>Type</td>
+        <td>Power</td>
+        <td titel="Power Point">PP</td>
+        <td titel="Accuracy">Acc</td>
+        <td class="small-screen">Method</td>
+      </tr>
+      <tbody id="table-body" style="background-color: ${secondColor};">
+      </tbody>
+      <tr style="height:1rem;"></tr>
+    </table>    
   </div>
   `;
 
-lodeMoves(clickedPokemon)
+  lodeMoves(clickedPokemon)
 }
 
 async function lodeMoves(clickedPokemon) {
@@ -313,13 +342,13 @@ async function lodeMoves(clickedPokemon) {
   for (let i = 0; i < clickedPokemon.moves.length; i++) {
     const move = clickedPokemon.moves[i];
 
-    let lvl 
+    let lvl
 
     if (move.version_group_details['0'].level_learned_at > 0) {
       lvl = move.version_group_details['0'].level_learned_at
     } else {
       lvl = '-'
-    } 
+    }
 
     const url = move.move.url
     const response = await fetch(url);
@@ -333,7 +362,7 @@ async function lodeMoves(clickedPokemon) {
       <td>${moveJson.power}</td>
       <td>${moveJson.pp}</td>
       <td>${moveJson.accuracy}</td>
-      <td>${move.version_group_details['0'].move_learn_method.name}</td>
+      <td class="small-screen">${move.version_group_details['0'].move_learn_method.name}</td>
     </tr>
     `;
 

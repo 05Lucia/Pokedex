@@ -10,6 +10,8 @@ function topInfoCard(clickedPokemon) {
         const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
         return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
     }).join('');
+
+    
  
     // let pokemonBefor;
     // if (clickedPokemon.id !==1) {
