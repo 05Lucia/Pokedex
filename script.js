@@ -16,7 +16,7 @@ let TypeColors = [
   { type: "dragon", color: "#5C41C9", backgroundColor: "#d3c9fb", icon: "./img/dragon.png" },
   { type: "dark", color: "#6B5451", backgroundColor: "#bfb5b4", icon: "./img/dark.png" },
   { type: "steel", color: "#B7B7B7", backgroundColor: "#e2e5e7", icon: "./img/steel.png" },
-  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffe3e3", icon: "./img/fairy.png" },
+  { type: "fairy", color: "#FFC8C8", backgroundColor: "#ffecec", icon: "./img/fairy.png" },
 ];
 
 const START_POKEMON = 0;
