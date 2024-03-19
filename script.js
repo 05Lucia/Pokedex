@@ -62,17 +62,7 @@ function renderPokemonCard() {
     return `<div class="type" style="background-color: ${typeColor}">${type.type.name}</div>`;
   }).join('');
 
-  container.innerHTML += `
-    <div class="pokeCard" id="pokeCard-${currentPokemon.id}" style="background-image: linear-gradient(to bottom, ${typeColor}, ${secondColor}); filter: drop-shadow(0px 0px 2px ${secondColor});">
-      <div class="top-card">
-        <h3>${currentPokemon.name}</h3>
-        <div>#${currentPokemon.id.toString().padStart(4, '0')}</div>
-      </div>
-      <div class="types">${types}</div>
-      <img src="${currentPokemonImg}" alt="">
-      <div class="bottom-box"></div>
-    </div>
-  `;
+  container.innerHTML += renderPokemonCardTemplate (currentPokemon, typeColor, secondColor, types, currentPokemonImg);
   addCardClick()
 }
 
@@ -116,7 +106,6 @@ async function search() {
   }
 }
 
-
 function addCardClick() {
   const container = document.getElementById('pokeCardContanier');
   const pokeCards = container.querySelectorAll('.pokeCard');
@@ -154,6 +143,32 @@ async function renderPokemonInfo(cardId) {
   topInfoCard(clickedPokemon);
   InfoCardButton(clickedPokemon);
   infoSectionGenral(clickedPokemon); // up to 3 evolution
+}
+
+function topInfoCard(clickedPokemon) {
+  let content = document.getElementById('top-Section');
+
+  const firstType = clickedPokemon['types'][0]; // Get the first type
+  const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
+  const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
+
+  const types = clickedPokemon['types'].map(type => {
+      const typeColor = TypeColors.find(color => color.type === type.type.name)?.color;
+      return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
+  }).join('');
+
+  // let pokemonBefor;
+  // if (clickedPokemon.id !==1) {
+  //   pokemonBefor = clickedPokemon.id--;
+  //   return
+  // }
+  // let pokemonAfter; 
+  // if (clickedPokemon.id !==1025) {
+  //   pokemonAfter = clickedPokemon.id++;
+  //   return
+  // } not workin jet!!!
+
+  content.innerHTML += topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types);
 }
 
 function InfoCardButton(clickedPokemon) {
@@ -211,59 +226,38 @@ async function infoSectionGenral(clickedPokemon) {
 
   const shinyPokemonImg = clickedPokemon['sprites']['other']['official-artwork']['front_shiny'];
 
+  content.innerHTML += infoSectionGenralTemplate (clickedPokemon, speciesJson, abilitiesHTML, shinyPokemonImg); 
+}
 
+function habitat(speciesJson) {
+  if (speciesJson.habitat && speciesJson.habitat.name) {
+    return `
+     ${speciesJson.habitat.name}
+    `;
+  } else {
+    return `
+     unknown
+    `;
+  }
+}
 
-  content.innerHTML += `
-  <div class="info-section" id="info-content">
-  <h3>Infos</h3>
-  <br>
-  <div class="flavor text-big "><b>flavor text:</b> <br> <div id="flavor_text"></div></div>
-  <br>
-  <div class="general-Info">
-    <div class="text-big row"> <b>Habitat: </b> <div id="habitat"></div> </div>
-    <div  ><b>Weight:</b> ${(clickedPokemon.weight / 10).toFixed(1)} kg</div>
-    <div><b>Height:</b> ${(clickedPokemon.height / 10).toFixed(1)} m</div>
-    <div class="abilities text-big"> <b>Abilities:</b> ${abilitiesHTML} </div>
-    <div class="text-big"> <b>Growth rate:</b> ${speciesJson.growth_rate.name} </div>
-  </div>
-  <br>
-  <div class="infoPokemonImg">
-  <b>Shiny version:</b>
-  <img  src="${shinyPokemonImg}" alt="">
-  </div>
-  <br>
-  </div>
-  `;
-  // infoSectionTypes(clickedPokemon);  
-  if (speciesJson['flavor_text_entries']['10']['flavor_text'] && speciesJson['flavor_text_entries']['10']['language']['name'] === 'en') {
-    const container = document.getElementById('flavor_text')
-    container.innerHTML = `
+function flavorText(speciesJson) {
+   if (speciesJson['flavor_text_entries']['10']['flavor_text'] && speciesJson['flavor_text_entries']['10']['language']['name'] === 'en') {
+    return `
     ${speciesJson['flavor_text_entries']['10']['flavor_text']}
     `;
   } if (speciesJson['flavor_text_entries']['10']['language']['name'] !== 'en') {
     for (let i = 0; i < speciesJson['flavor_text_entries'].length; i++) {
       const entry = speciesJson['flavor_text_entries'][i];
       if (entry.language.name === 'en') {
-        const container = document.getElementById('flavor_text');
-        container.innerHTML = `
+        return `
           ${entry.flavor_text}
         `;
         break; // Exit the loop once English flavor text is found
       }
     }
-  } 
-
-  if (speciesJson.habitat && speciesJson.habitat.name) {
-    const container = document.getElementById('habitat')
-    container.innerHTML = `
-     ${speciesJson.habitat.name}
-    `;
-  } else {
-    const container = document.getElementById('habitat')
-    container.innerHTML = `
-     unknown
-    `;
   }
+  
 }
 
 function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/pokemon/1
