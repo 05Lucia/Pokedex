@@ -268,16 +268,12 @@ function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/p
   const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
-  content.innerHTML += `
-  <div class="stats-table" id="stats-table">
-  </div>
-  `;
+  content.innerHTML += TamplateStatsTable ();
 
   const table = document.getElementById('stats-table')
   let highestStat = 0; // Initialize highest stat
 
-  // Find the highest base stat
-  for (let i = 0; i < clickedPokemon['stats'].length; i++) {
+  for (let i = 0; i < clickedPokemon['stats'].length; i++) {// Find the highest base stat
     const stat = clickedPokemon['stats'][i];
     highestStat = Math.max(highestStat, stat['base_stat']);
   }
@@ -287,16 +283,7 @@ function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/p
 
     const percent = Math.round((stat['base_stat'] / highestStat) * 100);
 
-    table.innerHTML += `
-    <div class="sats-collum">
-      <div><b>${stat['stat']['name']}</b></div>
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width:${percent}%; background-image: linear-gradient(to right, ${secondColor}, ${typeColor});" aria-valuemax="${highestStat}"></div>
-      </div>
-      <div>${stat['base_stat']} </div>
-    </div>
-    `;
-
+    table.innerHTML += stautsInfoTamplate (stat, percent, secondColor, typeColor, highestStat);
   }
 }
 
@@ -308,25 +295,7 @@ function movesInfo(clickedPokemon) {
   const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
   const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
-  content.innerHTML += `
-  <div class="move-container">
-    <table id="move-table" style="background-color: ${typeColor};">
-      <tr class = "first-row">
-        <td>Level</td>
-        <td>Move</td>
-        <td>Type</td>
-        <td>Power</td>
-        <td titel="Power Point">PP</td>
-        <td titel="Accuracy">Acc</td>
-        <td class="small-screen">Method</td>
-      </tr>
-      <tbody id="table-body" style="background-color: ${secondColor};">
-      </tbody>
-      <tr style="height:1rem;"></tr>
-    </table>    
-  </div>
-  `;
-
+  content.innerHTML += moveTableTamplate (typeColor, secondColor);
   lodeMoves(clickedPokemon)
 }
 
@@ -348,24 +317,10 @@ async function lodeMoves(clickedPokemon) {
     const response = await fetch(url);
     const moveJson = await response.json()
 
-    container.innerHTML += `
-    <tr>
-      <td>${lvl}</td>
-      <td>${move.move.name}</td>
-      <td>${moveJson.type.name}</td>
-      <td>${moveJson.power}</td>
-      <td>${moveJson.pp}</td>
-      <td>${moveJson.accuracy}</td>
-      <td class="small-screen">${move.version_group_details['0'].move_learn_method.name}</td>
-    </tr>
-    `;
-
+    container.innerHTML += moveTamplate (move, lvl, moveJson);
   }
-
 }
 
-// ---------------------------------------------------------------------------------------------------------
-// Lode function for the bottom of the page with onclick fukction ---> is working woud be better with Scrolle fuktion look at that at the end!!! 
 const ALL_POKEMON_COUNT = 1025;
 const BUFFER_DISTANCE = 10;
 
