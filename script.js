@@ -257,7 +257,6 @@ function flavorText(speciesJson) {
       }
     }
   }
-  
 }
 
 function stautsInfo(clickedPokemon) { // for exampel https://pokeapi.co/api/v2/pokemon/1
