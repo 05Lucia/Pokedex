@@ -558,6 +558,9 @@ a {
     .small-screen-img {
         width: 100px !important;
     }
+    .info-card {
+        height: 85vh;
+    }
 }
 
 @media (min-width: 450px) {
@@ -630,6 +633,7 @@ a {
     .arrow-center {
         width: 170px;
     }
+
 }
 
 @media (min-width: 1200px) {

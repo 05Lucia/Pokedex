@@ -84,7 +84,7 @@ function moveTableTamplate(typeColor, secondColor) {
         <td>Power</td>
         <td titel="Power Point">PP</td>
         <td titel="Accuracy">Acc</td>
-        <td class="small-screen">Method</td>
+        <td class="small-screen-d-none">Method</td>
       </tr>
       <tbody id="table-body" style="background-color: ${secondColor};">
       </tbody>
