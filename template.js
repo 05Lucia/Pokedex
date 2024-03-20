@@ -103,7 +103,7 @@ function moveTamplate(move, lvl, moveJson) {
       <td>${moveJson.power}</td>
       <td>${moveJson.pp}</td>
       <td>${moveJson.accuracy}</td>
-      <td class="small-screen">${move.version_group_details['0'].move_learn_method.name}</td>
+      <td class="small-screen-d-none">${move.version_group_details['0'].move_learn_method.name}</td>
     </tr>
     `
 }
@@ -112,7 +112,7 @@ function moveTamplate(move, lvl, moveJson) {
 
 function noEvolutionTemplate() {
   return `
-    <div class="info-section">
+    <div class="info-section-evolution">
     <br>
     <h3>This Pokémon has no further evolutions.</h3>
     </div>`
@@ -120,7 +120,7 @@ function noEvolutionTemplate() {
 
 function normalEvolutionTemplateBaseAndFirst(evolutionJson, imgEvolution0, evolvesTo, imgEvolution1, trigerFirstEvolution) {
   return `
-        <div class="info-section" id="info-content">
+        <div class="info-section-evolution" id="info-content">
           <div class="infoPokemonImg text-big">
             <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
             <img  src="${imgEvolution0}" alt="${evolutionJson['chain']['species']['name']}">
@@ -128,7 +128,7 @@ function normalEvolutionTemplateBaseAndFirst(evolutionJson, imgEvolution0, evolv
           <br>
           <div class="lvl-up-arrow-down">
             <div>${evolutionDetails(trigerFirstEvolution)}</div>
-            <img src="./img/runter-50.png" alt="arrow down">
+            <img class="rotate" src="./img/runter-50.png" alt="arrow down">
           </div>
           <br>
           <div class="first-evolution" id="first-evolution">
@@ -148,7 +148,7 @@ function normalFirstSecondEvolutionTmplate(trigerSecondEvolution, evolvesTo, img
         <div class="infoPokemonImg text-big">
           <div class="lvl-up-arrow-down">
            <div>${evolutionDetails(trigerSecondEvolution)}</div>
-           <img src="./img/runter-50.png" alt="arrow down">
+           <img class="rotate" src="./img/runter-50.png" alt="arrow down">
           </div>
           <br>   
           <div><b>${evolvesTo['0']['evolves_to']['0']['species']['name']}</b></div>
@@ -162,7 +162,7 @@ function normalSecondSecondEvolutionTempalte(evolvesTo, trigerSecondEvolution, i
       <div class="infoPokemonImg text-big">
         <div class="lvl-up-arrow-down">
           <div>${evolutionDetails(trigerSecondEvolution)}</div>
-          <img src="./img/runter-50.png" alt="arrow down">
+          <img class="rotate" src="./img/runter-50.png" alt="arrow down">
         </div>
         <br>
         <div><b>${evolvesTo['0']['evolves_to']['1']['species']['name']}</b></div>
@@ -174,7 +174,7 @@ function normalSecondSecondEvolutionTempalte(evolvesTo, trigerSecondEvolution, i
 
 function multiplEvolutionsBaseTemplate(evolutionJson, imgEvolution0, trigerFirstEvolution, evolvesTo, imgEvolution1) {
   return `
-  <div class="info-section" id="info-content">
+  <div class="info-section-evolution" id="info-content">
     <div class="infoPokemonImg text-big">
       <div><b>${evolutionJson['chain']['species']['name']}</b> </div>
       <img  src="${imgEvolution0}" alt="${evolutionJson['chain']['species']['name']}">
@@ -182,14 +182,14 @@ function multiplEvolutionsBaseTemplate(evolutionJson, imgEvolution0, trigerFirst
     <br>
     
     <div class="first-evolution" id="first-evolution">
-      <div class="infoPokemonImg text-big" id="evoBranch1">
+      <div class="infoPokemonImg text-big small-screen" id="evoBranch1">
       <div class="lvl-up-arrow-down">
         <div>${evolutionDetails(trigerFirstEvolution)}</div>
-        <img src="./img/runter-50.png" alt="arrow down">
+        <img class="rotate" src="./img/runter-50.png" alt="arrow down">
         </div>
         <br>
         <div><b>${evolvesTo['0']['species']['name']}</b></div>
-        <img  src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
+        <img class="small-screen-img" src="${imgEvolution1} " alt="${evolvesTo['0']['species']['name']}">
         <br>
       </div>
     </div>
@@ -201,24 +201,24 @@ function FirstBranchTemplate(trigerSecondEvolution, evolvesTo, imgEvolution2) {
   return `
           <div class="lvl-up-arrow-down">
             <div>${evolutionDetails(trigerSecondEvolution)}</div>
-            <img src="./img/runter-50.png" alt="arrow down">
+            <img class="rotate" src="./img/runter-50.png" alt="arrow down">
           </div>
           <br>
           <div><b>${evolvesTo['0']['evolves_to']['0']['species']['name']}</b></div>
-          <img  src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['0']['species']['name']}">
+          <img class="small-screen-img" src="${imgEvolution2} " alt="${evolvesTo['0']['evolves_to']['0']['species']['name']}">
         `
 }
 
 function SecondBranchFirstEvolutionTemplate(evolvesTo, imgEvolution1, trigerFirstEvolution) {
   return `
-    <div class="infoPokemonImg text-big" id="evoBranch2">
+    <div class="infoPokemonImg text-big small-screen" id="evoBranch2">
       <div class="lvl-up-arrow-down">
         <div>${evolutionDetails(trigerFirstEvolution)}</div>
-        <img src="./img/runter-50.png" alt="arrow down">
+        <img class="rotate" src="./img/runter-50.png" alt="arrow down">
       </div>
       <br>
       <div><b>${evolvesTo['1']['species']['name']}</b></div>
-      <img src="${imgEvolution1}" alt="${evolvesTo['1']['species']['name']}">
+      <img  class="small-screen-img" src="${imgEvolution1}" alt="${evolvesTo['1']['species']['name']}">
       <br>
     </div>
     `
@@ -228,24 +228,24 @@ function SecondBranchSecondEvolutionTemplate(evolvesTo, trigerSecondEvolution, i
   return `
     <div class="lvl-up-arrow-down">
       <div>${evolutionDetails(trigerSecondEvolution)}</div>
-      <img src="./img/runter-50.png" alt="arrow down">
+      <img class="rotate" src="./img/runter-50.png" alt="arrow down">
     </div>
     <br>
     <div><b>${evolvesTo['1']['evolves_to']['0']['species']['name']}</b></div>
-    <img  src="${imgEvolution2} " alt="${evolvesTo['1']['evolves_to']['0']['species']['name']}">
+    <img class="small-screen-img" src="${imgEvolution2} " alt="${evolvesTo['1']['evolves_to']['0']['species']['name']}">
     `
 }
 
 function ThirdBranchFirstEvolutionTemplate(evolvesTo, trigerFirstEvolution, imgEvolution1) {
   return `
-  <div class="infoPokemonImg text-big" id="evoBranch3">
+  <div class="infoPokemonImg text-big small-screen" id="evoBranch3">
     <div class="lvl-up-arrow-down">
       <div>${evolutionDetails(trigerFirstEvolution)}</div>
-      <img src="./img/runter-50.png" alt="arrow down">
+      <img class="rotate" src="./img/runter-50.png" alt="arrow down">
     </div>
     <br>
     <div><b>${evolvesTo['2']['species']['name']}</b></div>
-    <img  src="${imgEvolution1}" alt="${evolvesTo['2']['species']['name']}">
+    <img class="small-screen-img" src="${imgEvolution1}" alt="${evolvesTo['2']['species']['name']}">
     <br>
   </div>
   `
@@ -256,18 +256,18 @@ function ThirdBranchSecondEvolutionTemplate(trigerSecondEvolution, evolvesTo, im
     <div class="infoPokemonImg text-big">
       <div class="lvl-up-arrow-down">
         <div>${evolutionDetails(trigerSecondEvolution)}</div>
-        <img src="./img/runter-50.png" alt="arrow down">
+        <img class="rotate" src="./img/runter-50.png" alt="arrow down">
       </div>
       <br>
       <div><b>${evolvesTo['2']['evolves_to']['0']['species']['name']}</b></div>
-      <img  src="${imgEvolution2} " alt="${evolvesTo['2']['evolves_to']['0']['species']['name']}">
+      <img class="small-screen-img" src="${imgEvolution2} " alt="${evolvesTo['2']['evolves_to']['0']['species']['name']}">
     </div>
     `
 }
 
 function eeveeTemplate(evolutionJson, evolvesTo, eeveeFairyImg, eeveeIceImg, eeveeGrassImg, eeveeFairyEvo1, eeveeFairyEvo2, eeveeIceEvo, eeveeGrassEvo, eeveeDarkImg, eeveeDarkEvo, eeveeImg, eeveeWaterImg, eeveeElectricityImg, eeveeFireImg, eeveeWaterEvo, eeveeElectricityEvo, eeveeFireEvo, eeveePsyImg, eeveePsyEvo) {
   return`
-      <div class="info-section text-big" id="info-content">
+      <div class="info-section-evolution text-big" id="info-content">
       <br>
       <div class="eevee-row">
         <div class="eeveeImg">

@@ -216,16 +216,13 @@ function evolutionDetails(pokemon) {
     details.push(`Use ${item}`);
   } if (pokemon.time_of_day) {
     time = pokemon.time_of_day;
-    details.push(`time ${time}`);
+    details.push(` time ${time}`);
   } if (pokemon.location && pokemon.location.name) {
     location = pokemon.location.name;
     details.push(`Go to ${location}`);
   } if (pokemon.min_level) {
     lvl = pokemon.min_level;
     details.push(`Level ${lvl}+`);
-  } if (pokemon.trigger.name === 'trade') {
-    trade = pokemon.trigger.name;
-    details.push(`${trade}`);
   } if (pokemon.turn_upside_down === true) {
     details.push(`Turn upside down`);
   } if (pokemon.trigger.name === 'other') {
@@ -238,6 +235,9 @@ function evolutionDetails(pokemon) {
     details.push(`Level up knowing ${move}`);
   } if (pokemon.needs_overworld_rain === true) {
     details.push(`in Rain`);
+  } if (pokemon.trigger.name === 'trade') {
+    trade = pokemon.trigger.name;
+    details.push(` ${trade}`);
   }
   return details
 }

@@ -159,17 +159,6 @@ function topInfoCard(clickedPokemon) {
     return `<div class="type" style="background-color: ${typeColor} ;">${type.type.name}</div>`;
   }).join('');
 
-  // let pokemonBefor;
-  // if (clickedPokemon.id !==1) {
-  //   pokemonBefor = clickedPokemon.id--;
-  //   return
-  // }
-  // let pokemonAfter; 
-  // if (clickedPokemon.id !==1025) {
-  //   pokemonAfter = clickedPokemon.id++;
-  //   return
-  // } not workin jet!!!
-
   content.innerHTML += topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types,);
 }
 
@@ -191,6 +180,10 @@ function lastPokemon(Id) {
 
 function InfoCardButton(clickedPokemon) {
   let content = document.getElementById('top-Section');
+
+  const firstType = clickedPokemon['types'][0]; // Get the first type
+  const typeColor = TypeColors.find(color => color.type === firstType.type.name)?.color; // Find the matching color
+  const secondColor = TypeColors.find(color => color.type === firstType.type.name)?.backgroundColor;
 
   // Create the button container element
   const buttonContainer = document.createElement('div');
