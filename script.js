@@ -115,6 +115,7 @@ function addCardClick() {
       const cardId = pokeCard.id.replace('pokeCard-', ''); // Extract Pokemon ID from card ID
       document.getElementById('body-overlay').classList.remove('d-none')
       document.getElementById('info-card').classList.remove('d-none')
+      document.body.classList.add('body-noscroll-class')
       renderPokemonInfo(cardId); // Pass card ID as argument
     });
   });
@@ -123,6 +124,7 @@ function addCardClick() {
 function closeInfo() {
   document.getElementById('body-overlay').classList.add('d-none')
   document.getElementById('info-card').classList.add('d-none')
+  document.body.classList.remove('body-noscroll-class')
 }
 
 function doNotClose(event) {
