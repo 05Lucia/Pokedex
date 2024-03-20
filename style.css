@@ -240,6 +240,10 @@ a {
     text-transform: capitalize;
 }
 
+#next-pokemon img:hover {
+    cursor: pointer;
+}
+
 .pokemon-img {
     width: 190px;
     height: auto;
@@ -298,9 +302,9 @@ a {
     justify-content: space-between;
     align-items: center;
     flex-shrink: inherit;
-    
-    
-    
+
+
+
 }
 
 .info-btn button {
@@ -554,10 +558,11 @@ a {
     .move-container table {
         overflow: hidden;
     }
-    
+
     .small-screen-img {
         width: 100px !important;
     }
+
     .info-card {
         height: 85vh;
     }
@@ -624,7 +629,7 @@ a {
         width: 60px;
     }
 
-    .arrow img{
+    .arrow img {
         width: 60px;
     }
 }

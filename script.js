@@ -162,20 +162,18 @@ function topInfoCard(clickedPokemon) {
   content.innerHTML += topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types,);
 }
 
-function nextPokemon(Id) {
+function lastPokemon(Id) {
   if (Id > 1) {
     const next = Id - 1;
     renderPokemonInfo(next)
   }
-
 }
 
-function lastPokemon(Id) {
+function nextPokemon(Id) {
   if (Id < 1025) {
     const last = Id + 1;
     renderPokemonInfo(last)
   }
-
 }
 
 function InfoCardButton(clickedPokemon) {

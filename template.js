@@ -7,8 +7,8 @@ function topInfoCardTemplate(clickedPokemon, typeColor, secondColor, types,) {
        <p>ID: #${clickedPokemon.id.toString().padStart(4, '0')}</p>
      </div>
      <div id="next-pokemon">
-      <img src="img/links-50.png" alt="left" class="other-pokemon" onclick="nextPokemon(${clickedPokemon.id})">
-      <img src="img/rechts-50.png" alt="right" class="other-pokemon" onclick="lastPokemon(${clickedPokemon.id})">
+      <img id="last" src="img/links-50.png" alt="left" class="other-pokemon" onclick="lastPokemon(${clickedPokemon.id})">
+      <img id="next" src="img/rechts-50.png" alt="right" class="other-pokemon" onclick="nextPokemon(${clickedPokemon.id})">
      </div>
      <div class="types-Info">${types}</div>
      </div>
