@@ -267,7 +267,7 @@ function ThirdBranchSecondEvolutionTemplate(trigerSecondEvolution, evolvesTo, im
 
 function eeveeTemplate(evolutionJson, evolvesTo, eeveeFairyImg, eeveeIceImg, eeveeGrassImg, eeveeFairyEvo1, eeveeFairyEvo2, eeveeIceEvo, eeveeGrassEvo, eeveeDarkImg, eeveeDarkEvo, eeveeImg, eeveeWaterImg, eeveeElectricityImg, eeveeFireImg, eeveeWaterEvo, eeveeElectricityEvo, eeveeFireEvo, eeveePsyImg, eeveePsyEvo) {
   return`
-      <div class="info-section-evolution text-big" id="info-content">
+      <div class="info-section text-big" id="info-content">
       <br>
       <div class="eevee-row">
         <div class="eeveeImg">
