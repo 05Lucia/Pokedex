@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../Test"
+		},
+		{
+			"path": "../Akademi"
+		},
+		{
+			"path": "../quizapp"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Akademi"
+	}
+}
