@@ -22,7 +22,7 @@
 body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
-    background: radial-gradient(#b1b1b1, #ffff);
+    background: radial-gradient(#ffffff, #000000);
 }
 
 .backgroundImg {
@@ -85,7 +85,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgb(188 188 188 / 33%) 0px 1px 8px 5px;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -205,8 +205,8 @@ a {
 
 .info-card {
     position: fixed;
-    height: 95vh;
-    width: 90vw;
+    height: 90vh;
+    width: 70vw;
     background-color: white;
     border-radius: 20px;
     display: flex;
