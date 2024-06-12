@@ -22,7 +22,7 @@
 body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
-    background: radial-gradient(#ffffff, #000000);
+    background: #e4e4e4;
 }
 
 .backgroundImg {
@@ -206,7 +206,7 @@ a {
 .info-card {
     position: fixed;
     height: 90vh;
-    width: 70vw;
+    width: 80vw;
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -302,9 +302,6 @@ a {
     justify-content: space-between;
     align-items: center;
     flex-shrink: inherit;
-
-
-
 }
 
 .info-btn button {
@@ -365,6 +362,7 @@ a {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    width: 100%;
 }
 
 .flavor {
@@ -532,6 +530,9 @@ a {
 }
 
 @media (max-width: 400px) {
+    .info-btn {
+        flex-wrap: wrap;
+    }
     .sats-collum {
         grid-template-columns: 25% 50% 5%;
     }
@@ -592,6 +593,9 @@ a {
 }
 
 @media (min-width: 800px) {
+    .info-card {
+        width: 70vw;
+    }
 
     .pokemon-img {
         width: 240px;
@@ -621,6 +625,10 @@ a {
 }
 
 @media (min-width: 1000px) {
+    .info-card {
+        width: 60vw;
+    }
+
     .arrow-center {
         width: 140px;
     }
@@ -636,12 +644,31 @@ a {
 
 @media (min-width: 1100px) {
     .arrow-center {
+        width: 60vw;
         width: 170px;
     }
 
 }
 
 @media (min-width: 1200px) {
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0.5rem 10px;
+    }
+    
+    header img {
+        width: 20rem;
+        height: auto;
+        margin-bottom: 2rem;
+    }
+
+    .info-card {
+        height: 80vh;
+    }
 
     .info-section-evolution {
         padding-top: 23px;
