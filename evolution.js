@@ -149,95 +149,210 @@ async function multiplEvolutionsThirdBranch(evolvesTo) {
   }
 }
 
-async function eevee(evolvesTo, content, evolutionJson) {// https://pokeapi.co/api/v2/evolution-chain/67/ --> eevee's evolution chain!!
+async function eevee(evolvesTo, content, evolutionJson) {
+  // Check if the evolution chain corresponds to Eevee (8 evolutions)
   if (evolvesTo.length === 8) {
-    const response0 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolutionJson['chain']['species']['name']}`);
-    const eevee = await response0.json();
-    const eeveeImg = eevee['sprites']['other']['official-artwork']['front_default'];
+    // Fetch Eevee's base data
+    const eeveeData = await fetchEeveeBaseData(evolutionJson);
+    const eeveeImg = eeveeData.sprites.other['official-artwork'].front_default;
 
-    const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['0']['species']['name']}`);
-    const eeveeWater = await response1.json();
-    const eeveeWaterImg = eeveeWater['sprites']['other']['official-artwork']['front_default'];
-    const eeveeWaterEvo = evolvesTo['0']['evolution_details']['0'];
+    // Fetch data for all Eevee evolutions
+    const evolutionData = await fetchEeveeEvolutions(evolvesTo);
 
-    const response2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['1']['species']['name']}`);
-    const eeveeElectricity = await response2.json();
-    const eeveeElectricityImg = eeveeElectricity['sprites']['other']['official-artwork']['front_default'];
-    const eeveeElectricityEvo = evolvesTo['1']['evolution_details']['0'];
-
-    const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['2']['species']['name']}`);
-    const eeveeFire = await response3.json();
-    const eeveeFireImg = eeveeFire['sprites']['other']['official-artwork']['front_default'];
-    const eeveeFireEvo = evolvesTo['2']['evolution_details']['0'];
-
-    const response4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['3']['species']['name']}`);
-    const eeveePsy = await response4.json();
-    const eeveePsyImg = eeveePsy['sprites']['other']['official-artwork']['front_default'];
-    const eeveePsyEvo = evolvesTo['3']['evolution_details']['0'];
-
-    const response5 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['4']['species']['name']}`);
-    const eeveeDark = await response5.json();
-    const eeveeDarkImg = eeveeDark['sprites']['other']['official-artwork']['front_default'];
-    const eeveeDarkEvo = evolvesTo['4']['evolution_details']['0'];
-
-    const response6 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['5']['species']['name']}`);
-    const eeveeGrass = await response6.json();
-    const eeveeGrassImg = eeveeGrass['sprites']['other']['official-artwork']['front_default'];
-    const eeveeGrassEvo = evolvesTo['5']['evolution_details']['3']
-
-    const response7 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['6']['species']['name']}`);
-    const eeveeIce = await response7.json();
-    const eeveeIceImg = eeveeIce['sprites']['other']['official-artwork']['front_default'];
-    const eeveeIceEvo = evolvesTo['6']['evolution_details']['3']
-
-    const response8 = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolvesTo['7']['species']['name']}`);
-    const eeveeFairy = await response8.json();
-    const eeveeFairyImg = eeveeFairy['sprites']['other']['official-artwork']['front_default'];
-    const eeveeFairyEvo1 = evolvesTo['7']['evolution_details']['0'] // ther is a problem with this Json and the next. 
-    const eeveeFairyEvo2 = evolvesTo['7']['evolution_details']['1']
-
-    content.innerHTML += eeveeTemplate(evolutionJson, evolvesTo, eeveeFairyImg, eeveeIceImg, eeveeGrassImg, eeveeFairyEvo1, eeveeFairyEvo2, eeveeIceEvo, eeveeGrassEvo, eeveeDarkImg, eeveeDarkEvo, eeveeImg, eeveeWaterImg, eeveeElectricityImg, eeveeFireImg, eeveeWaterEvo, eeveeElectricityEvo, eeveeFireEvo, eeveePsyImg, eeveePsyEvo);
+    // Update content with the Eevee template
+    content.innerHTML += eeveeTemplate(
+      evolutionJson,
+      evolvesTo,
+      evolutionData.eeveeFairyImg,
+      evolutionData.eeveeIceImg,
+      evolutionData.eeveeGrassImg,
+      evolutionData.eeveeFairyEvo1,
+      evolutionData.eeveeFairyEvo2,
+      evolutionData.eeveeIceEvo,
+      evolutionData.eeveeGrassEvo,
+      evolutionData.eeveeDarkImg,
+      evolutionData.eeveeDarkEvo,
+      eeveeImg,
+      evolutionData.eeveeWaterImg,
+      evolutionData.eeveeElectricityImg,
+      evolutionData.eeveeFireImg,
+      evolutionData.eeveeWaterEvo,
+      evolutionData.eeveeElectricityEvo,
+      evolutionData.eeveeFireEvo,
+      evolutionData.eeveePsyImg,
+      evolutionData.eeveePsyEvo
+    );
   }
+}
+
+async function fetchEeveeBaseData(evolutionJson) {
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon/${evolutionJson.chain.species.name}`
+  );
+  return await response.json();
+}
+
+async function fetchEeveeEvolutions(evolvesTo) {
+  // Initialize an object to store evolution data
+  const evolutionData = {};
+
+  // Map evolution indices to variable names
+  const evolutionMap = {
+    0: { name: 'Water', imgKey: 'eeveeWaterImg', evoKey: 'eeveeWaterEvo' },
+    1: { name: 'Electricity', imgKey: 'eeveeElectricityImg', evoKey: 'eeveeElectricityEvo' },
+    2: { name: 'Fire', imgKey: 'eeveeFireImg', evoKey: 'eeveeFireEvo' },
+    3: { name: 'Psy', imgKey: 'eeveePsyImg', evoKey: 'eeveePsyEvo' },
+    4: { name: 'Dark', imgKey: 'eeveeDarkImg', evoKey: 'eeveeDarkEvo' },
+    5: { name: 'Grass', imgKey: 'eeveeGrassImg', evoKey: 'eeveeGrassEvo', evoDetailIndex: 3 },
+    6: { name: 'Ice', imgKey: 'eeveeIceImg', evoKey: 'eeveeIceEvo', evoDetailIndex: 3 },
+    7: {
+      name: 'Fairy',
+      imgKey: 'eeveeFairyImg',
+      evoKey1: 'eeveeFairyEvo1',
+      evoKey2: 'eeveeFairyEvo2',
+    },
+  };
+
+  // Loop through each of Eevee's evolutions
+  for (let i = 0; i < evolvesTo.length; i++) {
+    const speciesName = evolvesTo[i].species.name;
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${speciesName}`
+    );
+    const evolution = await response.json();
+    const evolutionImg =
+      evolution.sprites.other['official-artwork'].front_default;
+
+    const evoDetailIndex = evolutionMap[i].evoDetailIndex || 0;
+    const evolutionDetails = evolvesTo[i].evolution_details;
+
+    // Assign image and evolution details to the evolutionData object
+    evolutionData[evolutionMap[i].imgKey] = evolutionImg;
+
+    if (i === 7) {
+      // Handle the special case for Fairy evolution with multiple evolution details
+      evolutionData[evolutionMap[i].evoKey1] = evolutionDetails[0];
+      evolutionData[evolutionMap[i].evoKey2] = evolutionDetails[1];
+    } else {
+      evolutionData[evolutionMap[i].evoKey] = evolutionDetails[evoDetailIndex];
+    }
+  }
+
+  return evolutionData;
 }
 
 function evolutionDetails(pokemon) {
   if (!pokemon) {
     return 'Unknown';
   }
+
   const details = [];
-  if (pokemon['min_happiness']) { // to check if the feeld exist in the Pokemon JSON
-    minHappiness = pokemon.min_happiness;
-    details.push(`Happines Level: ${minHappiness}`);
-  } if (pokemon.min_affection) {
-    affection = pokemon.min_affection;
+
+  addMinHappiness(pokemon, details);
+  addMinAffection(pokemon, details);
+  addItemUsage(pokemon, details);
+  addTimeOfDay(pokemon, details);
+  addLocation(pokemon, details);
+  addMinLevel(pokemon, details);
+  addTurnUpsideDown(pokemon, details);
+  addTriggerOther(pokemon, details);
+  addHeldItem(pokemon, details);
+  addKnownMove(pokemon, details);
+  addNeedsOverworldRain(pokemon, details);
+  addTriggerTrade(pokemon, details);
+
+  return details;
+}
+
+function addMinHappiness(pokemon, details) {
+  // Check for minimum happiness
+  if (pokemon.min_happiness) {
+    const minHappiness = pokemon.min_happiness;
+    details.push(`Happiness Level: ${minHappiness}`);
+  }
+}
+
+function addMinAffection(pokemon, details) {
+  // Check for minimum affection
+  if (pokemon.min_affection) {
+    const affection = pokemon.min_affection;
     details.push(`Min Affection: ${affection}`);
-  } if (pokemon.item && pokemon.item.name) {
-    item = pokemon.item.name;
+  }
+}
+
+function addItemUsage(pokemon, details) {
+  // Check for item usage
+  if (pokemon.item && pokemon.item.name) {
+    const item = pokemon.item.name;
     details.push(`Use ${item}`);
-  } if (pokemon.time_of_day) {
-    time = pokemon.time_of_day;
-    details.push(` time ${time}`);
-  } if (pokemon.location && pokemon.location.name) {
-    location = pokemon.location.name;
+  }
+}
+
+function addTimeOfDay(pokemon, details) {
+  // Check for time of day
+  if (pokemon.time_of_day) {
+    const time = pokemon.time_of_day;
+    details.push(`Time ${time}`);
+  }
+}
+
+function addLocation(pokemon, details) {
+  // Check for location
+  if (pokemon.location && pokemon.location.name) {
+    const location = pokemon.location.name;
     details.push(`Go to ${location}`);
-  } if (pokemon.min_level) {
-    lvl = pokemon.min_level;
+  }
+}
+
+function addMinLevel(pokemon, details) {
+  // Check for minimum level
+  if (pokemon.min_level) {
+    const lvl = pokemon.min_level;
     details.push(`Level ${lvl}+`);
-  } if (pokemon.turn_upside_down === true) {
+  }
+}
+
+function addTurnUpsideDown(pokemon, details) {
+  // Check if needs to turn upside down
+  if (pokemon.turn_upside_down === true) {
     details.push(`Turn upside down`);
-  } if (pokemon.trigger.name === 'other') {
+  }
+}
+
+function addTriggerOther(pokemon, details) {
+  // Check if trigger is 'other'
+  if (pokemon.trigger && pokemon.trigger.name === 'other') {
     details.push(`Other`);
-  } if (pokemon.held_item && pokemon.held_item.name) {
-    item = pokemon.held_item.name
+  }
+}
+
+function addHeldItem(pokemon, details) {
+  // Check for held item
+  if (pokemon.held_item && pokemon.held_item.name) {
+    const item = pokemon.held_item.name;
     details.push(`Use ${item}`);
-  } if (pokemon.known_move && pokemon.known_move.name) {
-    move = pokemon.known_move.name;
+  }
+}
+
+function addKnownMove(pokemon, details) {
+  // Check for known move
+  if (pokemon.known_move && pokemon.known_move.name) {
+    const move = pokemon.known_move.name;
     details.push(`Level up knowing ${move}`);
-  } if (pokemon.needs_overworld_rain === true) {
-    details.push(`in Rain`);
-  } if (pokemon.trigger.name === 'trade') {
-    trade = pokemon.trigger.name;
+  }
+}
+
+function addNeedsOverworldRain(pokemon, details) {
+  // Check if needs overworld rain
+  if (pokemon.needs_overworld_rain === true) {
+    details.push(`In Rain`);
+  }
+}
+
+function addTriggerTrade(pokemon, details) {
+  // Check if trigger is 'trade'
+  if (pokemon.trigger && pokemon.trigger.name === 'trade') {
+    const trade = pokemon.trigger.name;
     details.push(` ${trade}`);
   }
-  return details
 }
